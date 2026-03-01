@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spent PVs Project Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #0a0e1a;
+        --surface: #111827;
+        --surface2: #1a2236;
+        --border: #2a3a5c;
+        --accent: #f5a623;
+        --accent2: #3ecf8e;
+        --danger: #f87171;
+        --text: #e8edf8;
+        --text-muted: #7a90b8;
+        --correct: #22c55e;
+        --wrong: #ef4444;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        min-height: 100vh;
+      }
+      .mono { font-family: 'Space Mono', monospace; }
+
+      /* Background grid effect */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .app-wrap {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 580px;
+        box-shadow: 0 0 60px rgba(245,166,35,0.06), 0 20px 60px rgba(0,0,0,0.5);
+      }
+
+      .card-wide { max-width: 900px; }
+
+      .badge {
+        display: inline-block;
+        background: rgba(245,166,35,0.12);
+        color: var(--accent);
+        border: 1px solid rgba(245,166,35,0.3);
+        border-radius: 6px;
+        padding: 3px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-family: 'Space Mono', monospace;
+      }
+
+      .badge-green {
+        background: rgba(62,207,142,0.1);
+        color: var(--accent2);
+        border-color: rgba(62,207,142,0.3);
+      }
+
+      .badge-red {
+        background: rgba(248,113,113,0.1);
+        color: var(--danger);
+        border-color: rgba(248,113,113,0.3);
+      }
+
+      h1 {
+        font-family: 'Space Mono', monospace;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.2;
+        margin-bottom: 0.25rem;
+      }
+
+      h1 span { color: var(--accent); }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+
+      .rules-box {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+      }
+
+      .rules-box strong { color: var(--accent); }
+
+      label.field-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.5rem;
+      }
+
+      input[type="text"], input[type="password"] {
+        width: 100%;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      input[type="text"]:focus, input[type="password"]:focus {
+        border-color: var(--accent);
+      }
+
+      .btn-primary {
+        width: 100%;
+        background: var(--accent);
+        color: #0a0e1a;
+        border: none;
+        border-radius: 10px;
+        padding: 0.9rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Space Mono', monospace;
+        letter-spacing: 0.04em;
+        transition: opacity 0.2s, transform 0.1s;
+      }
+
+      .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+      .btn-primary:active { transform: translateY(0); }
+      .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      .btn-secondary {
+        background: var(--surface2);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.9rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: border-color 0.2s, color 0.2s;
+        font-family: 'DM Sans', sans-serif;
+        margin-top: 0.75rem;
+      }
+
+      .btn-secondary:hover { border-color: var(--text-muted); color: var(--text); }
+
+      .group-select-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .group-btn {
+        background: var(--surface2);
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 1.25rem 0.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--text-muted);
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+      }
+
+      .group-btn .g-num {
+        font-size: 2rem;
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--text);
+      }
+
+      .group-btn .g-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .group-btn:hover, .group-btn.selected {
+        border-color: var(--accent);
+        background: rgba(245,166,35,0.08);
+        color: var(--accent);
+      }
+
+      .group-btn.selected .g-num { color: var(--accent); }
+
+      /* Progress bar */
+      .progress-bar-wrap {
+        background: var(--surface2);
+        border-radius: 99px;
+        height: 6px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), #f7c459);
+        border-radius: 99px;
+        transition: width 0.4s ease;
+      }
+
+      /* Timer ring */
+      .timer-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .timer-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        min-width: 2.5rem;
+        text-align: center;
+      }
+
+      .timer-num.warning { color: var(--danger); }
+      .timer-num.ok { color: var(--accent2); }
+
+      /* Question card */
+      .question-text {
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.65;
+        margin-bottom: 1.75rem;
+      }
+
+      /* Option buttons */
+      .option-btn {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.85rem;
+        width: 100%;
+        background: var(--surface2);
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        padding: 0.9rem 1rem;
+        margin-bottom: 0.6rem;
+        cursor: pointer;
+        transition: all 0.18s;
+        text-align: left;
+        color: var(--text);
+        font-size: 0.93rem;
+        font-family: 'DM Sans', sans-serif;
+      }
+
+      .option-btn:hover:not(:disabled) {
+        border-color: var(--accent);
+        background: rgba(245,166,35,0.07);
+      }
+
+      .option-btn.selected {
+        border-color: var(--accent);
+        background: rgba(245,166,35,0.1);
+      }
+
+      .option-btn.correct {
+        border-color: var(--correct);
+        background: rgba(34,197,94,0.1);
+      }
+
+      .option-btn.wrong {
+        border-color: var(--wrong);
+        background: rgba(239,68,68,0.1);
+      }
+
+      .option-btn:disabled { cursor: default; }
+
+      .option-letter {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        min-width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        background: var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .option-btn.selected .option-letter { background: var(--accent); color: #0a0e1a; }
+      .option-btn.correct .option-letter { background: var(--correct); color: #fff; }
+      .option-btn.wrong .option-letter { background: var(--wrong); color: #fff; }
+
+      /* Explanation box */
+      .explanation-box {
+        margin-top: 1.25rem;
+        background: rgba(62,207,142,0.07);
+        border: 1px solid rgba(62,207,142,0.25);
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        font-size: 0.9rem;
+        color: var(--accent2);
+        line-height: 1.65;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .explanation-box .exp-title {
+        font-weight: 700;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 0.4rem;
+        font-family: 'Space Mono', monospace;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Score display */
+      .score-big {
+        font-family: 'Space Mono', monospace;
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+        margin: 0.5rem 0;
+      }
+
+      .score-detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+      }
+
+      .score-item {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .score-item .si-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-family: 'Space Mono', monospace;
+        margin-bottom: 0.25rem;
+      }
+
+      .score-item .si-val {
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-family: 'Space Mono', monospace;
+        color: var(--text);
+      }
+
+      /* Admin table */
+      .admin-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+      .admin-table th {
+        background: var(--surface2);
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.72rem;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        font-family: 'Space Mono', monospace;
+      }
+      .admin-table td {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid rgba(42,58,92,0.5);
+        color: var(--text);
+      }
+      .admin-table tr:hover td { background: var(--surface2); }
+
+      .stat-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+
+      .stat-card .sc-label {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        font-family: 'Space Mono', monospace;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-card .sc-val {
+        font-size: 2rem;
+        font-weight: 700;
+        font-family: 'Space Mono', monospace;
+        color: var(--accent);
+      }
+
+      .header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .btn-sm {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface2);
+        color: var(--text-muted);
+        font-family: 'DM Sans', sans-serif;
+        transition: all 0.2s;
+      }
+
+      .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+      .btn-sm.accent { background: var(--accent); color: #0a0e1a; border-color: var(--accent); font-family: 'Space Mono', monospace; }
+      .btn-sm.accent:hover { opacity: 0.85; }
+
+      .quiz-header {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .next-btn {
+        display: block;
+        margin: 1.5rem auto 0;
+        background: var(--accent2);
+        color: #0a0e1a;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem 2.5rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: 'Space Mono', monospace;
+        letter-spacing: 0.04em;
+        transition: opacity 0.2s, transform 0.1s;
+      }
+      .next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+      .next-btn.submit { background: var(--accent); }
+
+      .footer { text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.78rem; font-family: 'Space Mono', monospace; }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      .pulse { animation: pulse 1s infinite; }
+
+      .tab-warning {
+        background: rgba(248,113,113,0.1);
+        border: 1px solid rgba(248,113,113,0.3);
+        border-radius: 8px;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.82rem;
+        color: var(--danger);
+        font-family: 'Space Mono', monospace;
+      }
+
+      .overflow-x { overflow-x: auto; }
+      .mt1 { margin-top: 1rem; }
+      .mb1 { margin-bottom: 1rem; }
+      .mb2 { margin-bottom: 2rem; }
+      .text-muted { color: var(--text-muted); }
+      .text-sm { font-size: 0.82rem; }
+      .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+      @media (max-width: 600px) {
+        .stat-grid { grid-template-columns: repeat(2, 1fr); }
+        h1 { font-size: 1.35rem; }
+        .score-big { font-size: 3rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useRef } = React;
+
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ49ebOvpIuttMBXh7gkCRU857mK6T0Hr3v4yiEisPzHjwHdaPFyD744kWGVu81KymqA/exec";
+      const ADMIN_PASSWORD = "admin123";
+      const TIME_PER_QUESTION = 20;
+      const TAB_SWITCH_PENALTY = 0.5;
+
+      const questions = [
+        {
+          id: 1,
+          question: "The term \"PV\" most accurately refers to:",
+          options: [
+            "A complete packaged module ready for installation",
+            "The light-to-electricity conversion effect/technology",
+            "A grid-connected solar power system",
+            "A laminated glass-covered device"
+          ],
+          correctAnswer: 1,
+          explanation: "PV refers to the photovoltaic effect/technology that converts light directly into electricity. A solar panel is the packaged product."
+        },
+        {
+          id: 2,
+          question: "A solar panel is best defined as:",
+          options: [
+            "A single semiconductor junction",
+            "A collection of PV cells laminated and packaged",
+            "A standalone PV inverter system",
+            "A thin-film semiconductor layer"
+          ],
+          correctAnswer: 1,
+          explanation: "A solar panel (PV module) consists of many PV cells wired together and packaged for durability and usable voltage."
+        },
+        {
+          id: 3,
+          question: "The primary function of a PV cell is to:",
+          options: [
+            "Store electrical energy",
+            "Convert DC to AC",
+            "Convert light directly into DC electricity",
+            "Concentrate sunlight"
+          ],
+          correctAnswer: 2,
+          explanation: "A PV cell converts light directly into DC electricity (~0.5–0.6 V per cell)."
+        },
+        {
+          id: 4,
+          question: "Crystalline silicon PVs fall under which generation?",
+          options: [
+            "Second generation",
+            "Third generation",
+            "First generation",
+            "Fourth generation"
+          ],
+          correctAnswer: 2,
+          explanation: "Monocrystalline and polycrystalline silicon are first-generation, wafer-based technologies."
+        },
+        {
+          id: 5,
+          question: "CdTe and CIGS are classified as:",
+          options: [
+            "First-generation crystalline PV",
+            "Second-generation thin-film PV",
+            "Third-generation perovskites",
+            "Fourth-generation hybrids"
+          ],
+          correctAnswer: 1,
+          explanation: "CdTe and CIGS belong to second-generation thin-film PV technologies."
+        },
+        {
+          id: 6,
+          question: "Perovskite solar cells are categorized as:",
+          options: [
+            "First generation",
+            "Second generation",
+            "Third generation",
+            "Wafer-based crystalline PV"
+          ],
+          correctAnswer: 2,
+          explanation: "Perovskites are classified as emerging third-generation PV technologies."
+        },
+        {
+          id: 7,
+          question: "The glass layer in a PV module primarily:",
+          options: [
+            "Generates electricity",
+            "Insulates against voltage leakage",
+            "Protects cells while allowing light transmission",
+            "Stores heat"
+          ],
+          correctAnswer: 2,
+          explanation: "Tempered low-iron glass allows light entry and protects cells from weather and impact."
+        },
+        {
+          id: 8,
+          question: "An anti-reflective coating on PV glass mainly:",
+          options: [
+            "Increases electrical insulation",
+            "Reduces reflection to improve light absorption",
+            "Prevents metal corrosion",
+            "Strengthens mechanical bonding"
+          ],
+          correctAnswer: 1,
+          explanation: "Anti-reflective coating reduces light reflection, increasing light absorption and thus efficiency."
+        },
+        {
+          id: 9,
+          question: "EVA stands for:",
+          options: [
+            "Ethylene-vinyl alcohol",
+            "Ethylene-vinyl acetate",
+            "Ethane-vinyl acetate",
+            "Ethylene-vinyl acrylate"
+          ],
+          correctAnswer: 1,
+          explanation: "EVA means ethylene-vinyl acetate, the most common encapsulant used in PV modules."
+        },
+        {
+          id: 10,
+          question: "The primary mechanical function of EVA is to:",
+          options: [
+            "Reflect UV radiation",
+            "Store thermal energy",
+            "Bond and cushion the cells",
+            "Convert AC to DC"
+          ],
+          correctAnswer: 2,
+          explanation: "EVA bonds and cushions cells between the glass and backsheet, protecting them mechanically."
+        },
+        {
+          id: 11,
+          question: "The junction box mainly:",
+          options: [
+            "Converts DC to AC",
+            "Concentrates sunlight",
+            "Collects current and houses bypass diodes",
+            "Provides structural strength"
+          ],
+          correctAnswer: 2,
+          explanation: "The junction box routes current from cell strings and contains bypass diodes for protection against partial shading."
+        },
+        {
+          id: 12,
+          question: "When PV modules become spent, silver (Ag) primarily undergoes:",
+          options: [
+            "Polymerization",
+            "Oxidation and corrosion",
+            "Melting only",
+            "Photoluminescence"
+          ],
+          correctAnswer: 1,
+          explanation: "Metals like Ag form oxides, hydroxides, and salts due to corrosion in degraded/spent modules."
+        },
+        {
+          id: 13,
+          question: "Lead (Pb) in spent PV solder tends to:",
+          options: [
+            "Remain chemically unchanged",
+            "Form lead acetate complexes",
+            "Convert to silicon oxide",
+            "Evaporate under sunlight only"
+          ],
+          correctAnswer: 1,
+          explanation: "Pb can preferentially corrode to lead acetate complexes, posing environmental leaching risks."
+        },
+        {
+          id: 14,
+          question: "During high-temperature recycling, Cd and Pb may:",
+          options: [
+            "Polymerize",
+            "Form only solid silicon",
+            "Redistribute into gas or ash fractions",
+            "Convert into EVA"
+          ],
+          correctAnswer: 2,
+          explanation: "Metals like Cd and Pb can volatilize or redistribute into gas and ash phases during thermal processing."
+        },
+        {
+          id: 15,
+          question: "EVA degradation first produces:",
+          options: [
+            "Silicon dioxide",
+            "Nitrogen oxides",
+            "Acetic acid, CO, and CO₂",
+            "Pure oxygen"
+          ],
+          correctAnswer: 2,
+          explanation: "EVA initially degrades into acetic acid, CO, and CO₂ via deacetylation reactions."
+        },
+        {
+          id: 16,
+          question: "Continued EVA pyrolysis leads to:",
+          options: [
+            "Only water vapor",
+            "Complex hydrocarbons (alkanes, alkenes, aromatics)",
+            "Pure methane only",
+            "Crystalline silicon"
+          ],
+          correctAnswer: 1,
+          explanation: "Chain cracking of EVA at higher temperatures forms alkanes, alkenes, and aromatic hydrocarbons."
+        },
+        {
+          id: 17,
+          question: "PVDF backsheet pyrolysis releases:",
+          options: [
+            "Only hydrogen gas",
+            "CF₂, F₂, and fluorinated fragments",
+            "Silicon carbide",
+            "Metallic silver"
+          ],
+          correctAnswer: 1,
+          explanation: "PVDF decomposition releases CF₂, F₂, CH₂, and other fluorinated fragments during thermal recycling."
+        },
+        {
+          id: 18,
+          question: "Corrosion in spent PV modules is accelerated mainly by:",
+          options: [
+            "Increased glass thickness",
+            "Acetic acid and halogenated degradation products",
+            "Higher sunlight intensity",
+            "Silicon purity"
+          ],
+          correctAnswer: 1,
+          explanation: "Degradation products like acetic acid promote metal ion migration and corrosion within the module."
+        },
+        {
+          id: 19,
+          question: "III–V multijunction cells (e.g., GaAs stacks) are mainly used for:",
+          options: [
+            "Low-cost residential rooftops",
+            "Space or concentrator systems due to high efficiency",
+            "Flexible polymer modules",
+            "Glass-free modules"
+          ],
+          correctAnswer: 1,
+          explanation: "III–V multijunction cells have very high efficiency but are costly, mainly used in space and concentrator systems."
+        },
+        {
+          id: 20,
+          question: "The main difference between a PV cell and a solar panel is that:",
+          options: [
+            "A PV cell produces AC, a panel produces DC",
+            "A PV cell is the light-conversion device; a panel is an assembly of many cells",
+            "A panel works without light",
+            "A cell includes bypass diodes"
+          ],
+          correctAnswer: 1,
+          explanation: "A PV cell performs light-to-DC conversion; a solar panel is a packaged assembly of many PV cells connected together."
+        }
+      ];
+
+      const LETTERS = ['A','B','C','D'];
+
+      function QuizApp() {
+        const [view, setView] = useState("start");
+        const [studentName, setStudentName] = useState("");
+        const [indexNumber, setIndexNumber] = useState("");
+        const [selectedGroup, setSelectedGroup] = useState(null);
+        const [currentQ, setCurrentQ] = useState(0);
+        const [answers, setAnswers] = useState({});
+        const [timeLeft, setTimeLeft] = useState(TIME_PER_QUESTION);
+        const [tabSwitches, setTabSwitches] = useState(0);
+        const [revealed, setRevealed] = useState(false);
+        const [quizSubmitted, setQuizSubmitted] = useState(false);
+        const [adminPassword, setAdminPassword] = useState("");
+        const [showAdminLogin, setShowAdminLogin] = useState(false);
+        const [finalResults, setFinalResults] = useState(null);
+        const timerRef = useRef(null);
+
+        // Anti-cheat
+        useEffect(() => {
+          if (view !== "quiz") return;
+          const noCtx = e => e.preventDefault();
+          const noCopy = e => e.preventDefault();
+          document.addEventListener("contextmenu", noCtx);
+          document.addEventListener("copy", noCopy);
+          document.addEventListener("cut", noCopy);
+          document.addEventListener("paste", noCopy);
+          document.body.style.userSelect = "none";
+          const onVis = () => { if (document.hidden) setTabSwitches(p => p + 1); };
+          document.addEventListener("visibilitychange", onVis);
+          return () => {
+            document.removeEventListener("contextmenu", noCtx);
+            document.removeEventListener("copy", noCopy);
+            document.removeEventListener("cut", noCopy);
+            document.removeEventListener("paste", noCopy);
+            document.removeEventListener("visibilitychange", onVis);
+            document.body.style.userSelect = "auto";
+          };
+        }, [view]);
+
+        // Timer
+        useEffect(() => {
+          if (view !== "quiz" || revealed) return;
+          if (timeLeft <= 0) {
+            setRevealed(true);
+            return;
+          }
+          timerRef.current = setTimeout(() => setTimeLeft(p => p - 1), 1000);
+          return () => clearTimeout(timerRef.current);
+        }, [view, timeLeft, revealed]);
+
+        const handleStartQuiz = async () => {
+          if (!studentName.trim() || !indexNumber.trim()) { alert("Please enter your name and index number"); return; }
+          if (!selectedGroup) { alert("Please select your group"); return; }
+          const btn = document.getElementById("startBtn");
+          if (btn) btn.disabled = true;
+          try {
+            const resp = await fetch(`${GOOGLE_SCRIPT_URL}?sheet=Sheet1`);
+            const data = await resp.json();
+            const already = data.some(r => String(r.indexNumber).trim() === String(indexNumber).trim());
+            if (already) {
+              alert("This index number has already been used. You cannot retake the quiz.");
+              if (btn) btn.disabled = false;
+              return;
+            }
+            setView("quiz");
+            setTimeLeft(TIME_PER_QUESTION);
+            setRevealed(false);
+          } catch {
+            alert("Error checking records. Please try again.");
+            if (btn) btn.disabled = false;
+          }
+        };
+
+        const handleAnswer = (optIdx) => {
+          if (revealed) return;
+          if (answers[currentQ] !== undefined) return;
+          setAnswers(p => ({ ...p, [currentQ]: optIdx }));
+        };
+
+        const handleNext = () => {
+          if (currentQ < questions.length - 1) {
+            setCurrentQ(p => p + 1);
+            setTimeLeft(TIME_PER_QUESTION);
+            setRevealed(false);
+          } else {
+            submitQuiz();
+          }
+        };
+
+        const submitQuiz = async () => {
+          if (quizSubmitted) return;
+          setQuizSubmitted(true);
+          let correct = 0;
+          questions.forEach((q, i) => {
+            if (answers[i] === q.correctAnswer) correct++;
+          });
+          const tabPenalty = tabSwitches * TAB_SWITCH_PENALTY;
+          const finalScore = Math.max(0, correct - tabPenalty);
+          const pct = ((finalScore / questions.length) * 100).toFixed(1);
+          const result = {
+            studentName, indexNumber,
+            group: `Group ${selectedGroup}`,
+            rawScore: correct,
+            tabSwitches, tabPenalty, finalScore,
+            totalQuestions: questions.length,
+            percentage: pct,
+            timestamp: new Date().toLocaleString()
+          };
+          setFinalResults(result);
+          setView("result");
+          try {
+            await fetch(GOOGLE_SCRIPT_URL, {
+              method: "POST", mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(result)
+            });
+          } catch {}
+        };
+
+        const handleAdminLogin = () => {
+          if (adminPassword === ADMIN_PASSWORD) setView("admin");
+          else alert("Incorrect password");
+        };
+
+        // ADMIN
+        if (view === "admin") return <AdminView onExit={() => setView("start")} />;
+
+        // START
+        if (view === "start") return (
+          <div className="app-wrap">
+            <div style={{ width: "100%", maxWidth: 520 }}>
+              <div className="card">
+                <div style={{ marginBottom: "0.5rem" }}><span className="badge">KNUST · Materials Engineering</span></div>
+                <h1 style={{ marginBottom: "0.25rem" }}>Spent <span>PVs</span> Project</h1>
+                <p className="subtitle mono" style={{ fontSize: "0.78rem", color: "var(--accent)", letterSpacing: "0.06em", marginBottom: "1.5rem" }}>PHOTOVOLTAIC TECHNOLOGY QUIZ — 20 QUESTIONS</p>
+
+                <div className="rules-box">
+                  <strong>Quiz Rules</strong><br />
+                  · 20 questions · 20 seconds per question<br />
+                  · Timer stops → answer revealed → click Next<br />
+                  · Points only awarded within the 20-second window<br />
+                  · Tab switching: <strong>–0.5 pts</strong> each · Right-click disabled
+                </div>
+
+                <label className="field-label">Select Your Group</label>
+                <div className="group-select-grid">
+                  {[1,2,3].map(g => (
+                    <button key={g} className={`group-btn ${selectedGroup === g ? "selected" : ""}`} onClick={() => setSelectedGroup(g)}>
+                      <span className="g-num">{g}</span>
+                      <span className="g-label">Group {g}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <label className="field-label">Full Name</label>
+                <input type="text" value={studentName} onChange={e => setStudentName(e.target.value)} placeholder="Enter your full name" />
+
+                <label className="field-label">Index Number</label>
+                <input type="text" value={indexNumber} onChange={e => setIndexNumber(e.target.value)} placeholder="Enter your index number" />
+
+                <button id="startBtn" className="btn-primary" onClick={handleStartQuiz}>BEGIN QUIZ →</button>
+
+                <button className="btn-secondary" onClick={() => setShowAdminLogin(!showAdminLogin)}>
+                  {showAdminLogin ? "Hide Admin Login" : "Admin Login"}
+                </button>
+
+                {showAdminLogin && (
+                  <div style={{ marginTop: "0.75rem", background: "var(--surface2)", border: "1px solid var(--border)", borderRadius: 10, padding: "1rem" }}>
+                    <input type="password" value={adminPassword} onChange={e => setAdminPassword(e.target.value)} placeholder="Admin Password" style={{ marginBottom: "0.75rem" }} />
+                    <button className="btn-primary" onClick={handleAdminLogin} style={{ background: "var(--surface2)", color: "var(--text-muted)", border: "1px solid var(--border)" }}>Login as Admin</button>
+                  </div>
+                )}
+              </div>
+              <div className="footer">©Team Benny</div>
+            </div>
+          </div>
+        );
+
+        // RESULT
+        if (view === "result" && finalResults) {
+          const { rawScore, tabSwitches: ts, tabPenalty, finalScore, percentage } = finalResults;
+          const grade = finalScore >= 16 ? "A" : finalScore >= 14 ? "B" : finalScore >= 10 ? "C" : "D";
+          return (
+            <div className="app-wrap">
+              <div className="card" style={{ maxWidth: 520, textAlign: "center" }}>
+                <div style={{ marginBottom: "1rem" }}>
+                  <span className="badge badge-green">✓ SUBMITTED</span>
+                </div>
+                <h1>Quiz Complete!</h1>
+                <p className="subtitle">Well done, {studentName}</p>
+                <div className="score-big">{finalScore}<span style={{ fontSize: "1.5rem", color: "var(--text-muted)" }}>/{questions.length}</span></div>
+                <p style={{ color: "var(--accent2)", fontSize: "0.85rem", marginBottom: "1.25rem", fontFamily: "Space Mono" }}>{percentage}% · Grade {grade}</p>
+                <div className="score-detail">
+                  <div className="score-item">
+                    <div className="si-label">Raw Score</div>
+                    <div className="si-val">{rawScore}</div>
+                  </div>
+                  <div className="score-item">
+                    <div className="si-label">Tab Switches</div>
+                    <div className="si-val" style={{ color: ts > 0 ? "var(--danger)" : "var(--text)" }}>{ts}</div>
+                  </div>
+                  <div className="score-item">
+                    <div className="si-label">Penalty</div>
+                    <div className="si-val" style={{ color: "var(--danger)" }}>–{tabPenalty}</div>
+                  </div>
+                  <div className="score-item">
+                    <div className="si-label">Group</div>
+                    <div className="si-val" style={{ fontSize: "1.1rem" }}>Grp {selectedGroup}</div>
+                  </div>
+                </div>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>Your results have been recorded. Your instructor will share final grades.</p>
+              </div>
+              <div className="footer">©Team Benny</div>
+            </div>
+          );
+        }
+
+        // QUIZ
+        const q = questions[currentQ];
+        const userAnswer = answers[currentQ];
+        const progress = ((currentQ) / questions.length) * 100;
+
+        return (
+          <div className="app-wrap" style={{ alignItems: "flex-start", paddingTop: "1.5rem" }}>
+            <div style={{ width: "100%", maxWidth: 680 }}>
+              <div className="quiz-header">
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{studentName}</span>
+                  <span className="badge">{indexNumber}</span>
+                  <span className="badge badge-green">Group {selectedGroup}</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                  {tabSwitches > 0 && (
+                    <div className="tab-warning">⚠ {tabSwitches} switch{tabSwitches > 1 ? "es" : ""} (–{(tabSwitches * TAB_SWITCH_PENALTY).toFixed(1)})</div>
+                  )}
+                  <div className="timer-wrap">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: timeLeft <= 5 ? "var(--danger)" : "var(--accent2)", flexShrink: 0 }}>
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span className={`timer-num ${timeLeft <= 5 ? "warning pulse" : "ok"}`}>{timeLeft}s</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="progress-bar-wrap">
+                <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
+              </div>
+
+              <div className="card" style={{ maxWidth: "100%", padding: "2rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
+                  <span className="badge" style={{ background: "rgba(62,207,142,0.1)", color: "var(--accent2)", borderColor: "rgba(62,207,142,0.3)" }}>Q {currentQ + 1} of {questions.length}</span>
+                  {revealed && <span className="badge" style={{ background: "rgba(248,113,113,0.1)", color: "var(--danger)", borderColor: "rgba(248,113,113,0.3)" }}>TIME UP</span>}
+                </div>
+
+                <p className="question-text">{q.question}</p>
+
+                <div>
+                  {q.options.map((opt, i) => {
+                    let cls = "option-btn";
+                    if (revealed) {
+                      if (i === q.correctAnswer) cls += " correct";
+                      else if (userAnswer === i && i !== q.correctAnswer) cls += " wrong";
+                    } else {
+                      if (userAnswer === i) cls += " selected";
+                    }
+                    return (
+                      <button key={i} className={cls} disabled={revealed || userAnswer !== undefined} onClick={() => handleAnswer(i)}>
+                        <span className="option-letter">{LETTERS[i]}</span>
+                        <span>{opt}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {revealed && (
+                  <div className="explanation-box">
+                    <div className="exp-title">✓ Explanation</div>
+                    <div style={{ color: "var(--text)", marginTop: "0.25rem" }}>{q.explanation}</div>
+                  </div>
+                )}
+
+                {revealed && (
+                  <button className={`next-btn${currentQ === questions.length - 1 ? " submit" : ""}`} onClick={handleNext}>
+                    {currentQ === questions.length - 1 ? "Submit Quiz ✓" : "Next Question →"}
+                  </button>
+                )}
+              </div>
+
+              <div className="footer" style={{ marginTop: "1rem" }}>©Team Benny</div>
+            </div>
+          </div>
+        );
+      }
+
+      function AdminView({ onExit }) {
+        const [results, setResults] = useState([]);
+        const [loading, setLoading] = useState(true);
+
+        useEffect(() => { load(); }, []);
+
+        const load = async () => {
+          setLoading(true);
+          try {
+            const resp = await fetch(`${GOOGLE_SCRIPT_URL}?sheet=Sheet1`);
+            const data = await resp.json();
+            setResults(data);
+          } catch {}
+          setLoading(false);
+        };
+
+        const stats = (() => {
+          if (!results.length) return { highest: 0, average: 0, lowest: 0 };
+          const scores = results.map(r => parseFloat(String(r.finalScore).split("/")[0]));
+          return {
+            highest: Math.max(...scores),
+            lowest: Math.min(...scores),
+            average: (scores.reduce((a,b) => a+b, 0) / scores.length).toFixed(1)
+          };
+        })();
+
+        return (
+          <div style={{ minHeight: "100vh", padding: "1.5rem", background: "var(--bg)" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+              <div className="card card-wide">
+                <div className="header-bar">
+                  <div>
+                    <h1 style={{ fontSize: "1.4rem", marginBottom: "0.25rem" }}>Admin <span>Dashboard</span></h1>
+                    <p className="text-muted text-sm mono">Spent PVs Project Quiz · Sheet1</p>
+                  </div>
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <button className="btn-sm accent" onClick={load}>↻ Refresh</button>
+                    <button className="btn-sm" onClick={onExit}>Exit Admin</button>
+                  </div>
+                </div>
+
+                {loading ? (
+                  <p className="text-muted">Loading from Google Sheets...</p>
+                ) : results.length === 0 ? (
+                  <p className="text-muted">No submissions yet.</p>
+                ) : (
+                  <>
+                    <div className="stat-grid">
+                      <div className="stat-card">
+                        <div className="sc-label">Total Submissions</div>
+                        <div className="sc-val">{results.length}</div>
+                      </div>
+                      <div className="stat-card" style={{ borderColor: "rgba(34,197,94,0.3)" }}>
+                        <div className="sc-label" style={{ color: "var(--correct)" }}>Highest</div>
+                        <div className="sc-val" style={{ color: "var(--correct)" }}>{stats.highest}/20</div>
+                      </div>
+                      <div className="stat-card">
+                        <div className="sc-label" style={{ color: "var(--accent2)" }}>Average</div>
+                        <div className="sc-val" style={{ color: "var(--accent2)" }}>{stats.average}/20</div>
+                      </div>
+                      <div className="stat-card" style={{ borderColor: "rgba(239,68,68,0.3)" }}>
+                        <div className="sc-label" style={{ color: "var(--danger)" }}>Lowest</div>
+                        <div className="sc-val" style={{ color: "var(--danger)" }}>{stats.lowest}/20</div>
+                      </div>
+                    </div>
+
+                    <p className="text-muted text-sm mb1">Each tab switch = –0.5 point penalty</p>
+
+                    <div className="overflow-x">
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Index</th>
+                            <th>Group</th>
+                            <th>Raw</th>
+                            <th>Switches</th>
+                            <th>Penalty</th>
+                            <th>Final</th>
+                            <th>%</th>
+                            <th>Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {results.map((r, i) => (
+                            <tr key={i}>
+                              <td style={{ color: "var(--text-muted)" }}>{i+1}</td>
+                              <td style={{ fontWeight: 600 }}>{r.studentName}</td>
+                              <td className="mono" style={{ fontSize: "0.82rem" }}>{r.indexNumber}</td>
+                              <td><span className="badge badge-green">{r.group}</span></td>
+                              <td style={{ fontWeight: 700 }}>{r.rawScore}</td>
+                              <td>{r.tabSwitches}</td>
+                              <td style={{ color: "var(--danger)" }}>–{r.tabPenalty}</td>
+                              <td><span style={{ color: "var(--accent)", fontWeight: 700, fontFamily: "Space Mono" }}>{r.finalScore}</span></td>
+                              <td><span className="badge">{r.percentage}%</span></td>
+                              <td style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>{r.timestamp}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="footer mt1">©Team Benny</div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<QuizApp />);
+    </script>
+  </body>
+</html>
