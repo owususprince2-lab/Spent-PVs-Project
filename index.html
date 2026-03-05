@@ -23,513 +23,95 @@
         --correct: #22c55e;
         --wrong: #ef4444;
       }
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: 'DM Sans', sans-serif;
-        min-height: 100vh;
-      }
+      body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
       .mono { font-family: 'Space Mono', monospace; }
-
-      /* Background grid effect */
       body::before {
         content: '';
         position: fixed;
         inset: 0;
-        background-image:
-          linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
+        background-image: linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
         background-size: 40px 40px;
         pointer-events: none;
         z-index: 0;
       }
-
-      .app-wrap {
-        position: relative;
-        z-index: 1;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1.5rem;
-      }
-
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 2.5rem;
-        width: 100%;
-        max-width: 580px;
-        box-shadow: 0 0 60px rgba(245,166,35,0.06), 0 20px 60px rgba(0,0,0,0.5);
-      }
-
+      .app-wrap { position: relative; z-index: 1; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+      .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 580px; box-shadow: 0 0 60px rgba(245,166,35,0.06), 0 20px 60px rgba(0,0,0,0.5); }
       .card-wide { max-width: 900px; }
-
-      .badge {
-        display: inline-block;
-        background: rgba(245,166,35,0.12);
-        color: var(--accent);
-        border: 1px solid rgba(245,166,35,0.3);
-        border-radius: 6px;
-        padding: 3px 10px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        font-family: 'Space Mono', monospace;
-      }
-
-      .badge-green {
-        background: rgba(62,207,142,0.1);
-        color: var(--accent2);
-        border-color: rgba(62,207,142,0.3);
-      }
-
-      .badge-red {
-        background: rgba(248,113,113,0.1);
-        color: var(--danger);
-        border-color: rgba(248,113,113,0.3);
-      }
-
-      h1 {
-        font-family: 'Space Mono', monospace;
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: var(--text);
-        line-height: 1.2;
-        margin-bottom: 0.25rem;
-      }
-
+      .badge { display: inline-block; background: rgba(245,166,35,0.12); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); border-radius: 6px; padding: 3px 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+      .badge-green { background: rgba(62,207,142,0.1); color: var(--accent2); border-color: rgba(62,207,142,0.3); }
+      .badge-red { background: rgba(248,113,113,0.1); color: var(--danger); border-color: rgba(248,113,113,0.3); }
+      h1 { font-family: 'Space Mono', monospace; font-size: 1.75rem; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 0.25rem; }
       h1 span { color: var(--accent); }
-
-      .subtitle {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        margin-bottom: 2rem;
-      }
-
-      .rules-box {
-        background: var(--surface2);
-        border: 1px solid var(--border);
-        border-left: 3px solid var(--accent);
-        border-radius: 10px;
-        padding: 1.25rem 1.5rem;
-        margin-bottom: 2rem;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        line-height: 1.8;
-      }
-
+      .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+      .rules-box { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.8; }
       .rules-box strong { color: var(--accent); }
-
-      label.field-label {
-        display: block;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 0.5rem;
-      }
-
-      input[type="text"], input[type="password"] {
-        width: 100%;
-        background: var(--surface2);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 0.75rem 1rem;
-        color: var(--text);
-        font-family: 'DM Sans', sans-serif;
-        font-size: 0.95rem;
-        margin-bottom: 1.25rem;
-        outline: none;
-        transition: border-color 0.2s;
-      }
-
-      input[type="text"]:focus, input[type="password"]:focus {
-        border-color: var(--accent);
-      }
-
-      .btn-primary {
-        width: 100%;
-        background: var(--accent);
-        color: #0a0e1a;
-        border: none;
-        border-radius: 10px;
-        padding: 0.9rem;
-        font-size: 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: 'Space Mono', monospace;
-        letter-spacing: 0.04em;
-        transition: opacity 0.2s, transform 0.1s;
-      }
-
+      label.field-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+      input[type="text"], input[type="password"] { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; margin-bottom: 1.25rem; outline: none; transition: border-color 0.2s; }
+      input[type="text"]:focus, input[type="password"]:focus { border-color: var(--accent); }
+      .btn-primary { width: 100%; background: var(--accent); color: #0a0e1a; border: none; border-radius: 10px; padding: 0.9rem; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Space Mono', monospace; letter-spacing: 0.04em; transition: opacity 0.2s, transform 0.1s; }
       .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
       .btn-primary:active { transform: translateY(0); }
       .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-      .btn-secondary {
-        background: var(--surface2);
-        color: var(--text-muted);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 0.9rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        width: 100%;
-        transition: border-color 0.2s, color 0.2s;
-        font-family: 'DM Sans', sans-serif;
-        margin-top: 0.75rem;
-      }
-
+      .btn-secondary { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; transition: border-color 0.2s, color 0.2s; font-family: 'DM Sans', sans-serif; margin-top: 0.75rem; }
       .btn-secondary:hover { border-color: var(--text-muted); color: var(--text); }
-
-      .group-select-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .group-btn {
-        background: var(--surface2);
-        border: 2px solid var(--border);
-        border-radius: 12px;
-        padding: 1.25rem 0.5rem;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s;
-        color: var(--text-muted);
-        font-family: 'Space Mono', monospace;
-        font-weight: 700;
-      }
-
-      .group-btn .g-num {
-        font-size: 2rem;
-        display: block;
-        margin-bottom: 0.25rem;
-        color: var(--text);
-      }
-
-      .group-btn .g-label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-
-      .group-btn:hover, .group-btn.selected {
-        border-color: var(--accent);
-        background: rgba(245,166,35,0.08);
-        color: var(--accent);
-      }
-
+      .group-select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+      .group-btn { background: var(--surface2); border: 2px solid var(--border); border-radius: 12px; padding: 1.25rem 0.5rem; text-align: center; cursor: pointer; transition: all 0.2s; color: var(--text-muted); font-family: 'Space Mono', monospace; font-weight: 700; }
+      .group-btn .g-num { font-size: 2rem; display: block; margin-bottom: 0.25rem; color: var(--text); }
+      .group-btn .g-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      .group-btn .g-topic { font-size: 0.62rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.3; }
+      .group-btn:hover, .group-btn.selected { border-color: var(--accent); background: rgba(245,166,35,0.08); color: var(--accent); }
       .group-btn.selected .g-num { color: var(--accent); }
-
-      /* Progress bar */
-      .progress-bar-wrap {
-        background: var(--surface2);
-        border-radius: 99px;
-        height: 6px;
-        overflow: hidden;
-        margin-bottom: 1.5rem;
-      }
-
-      .progress-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), #f7c459);
-        border-radius: 99px;
-        transition: width 0.4s ease;
-      }
-
-      /* Timer ring */
-      .timer-wrap {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .timer-num {
-        font-family: 'Space Mono', monospace;
-        font-size: 1.5rem;
-        font-weight: 700;
-        min-width: 2.5rem;
-        text-align: center;
-      }
-
+      .progress-bar-wrap { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; margin-bottom: 1.5rem; }
+      .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #f7c459); border-radius: 99px; transition: width 0.4s ease; }
+      .timer-wrap { display: flex; align-items: center; gap: 0.5rem; }
+      .timer-num { font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; min-width: 2.5rem; text-align: center; }
       .timer-num.warning { color: var(--danger); }
       .timer-num.ok { color: var(--accent2); }
-
-      /* Question card */
-      .question-text {
-        font-size: 1.05rem;
-        font-weight: 500;
-        color: var(--text);
-        line-height: 1.65;
-        margin-bottom: 1.75rem;
-      }
-
-      /* Option buttons */
-      .option-btn {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.85rem;
-        width: 100%;
-        background: var(--surface2);
-        border: 2px solid var(--border);
-        border-radius: 10px;
-        padding: 0.9rem 1rem;
-        margin-bottom: 0.6rem;
-        cursor: pointer;
-        transition: all 0.18s;
-        text-align: left;
-        color: var(--text);
-        font-size: 0.93rem;
-        font-family: 'DM Sans', sans-serif;
-      }
-
-      .option-btn:hover:not(:disabled) {
-        border-color: var(--accent);
-        background: rgba(245,166,35,0.07);
-      }
-
-      .option-btn.selected {
-        border-color: var(--accent);
-        background: rgba(245,166,35,0.1);
-      }
-
-      .option-btn.correct {
-        border-color: var(--correct);
-        background: rgba(34,197,94,0.1);
-      }
-
-      .option-btn.wrong {
-        border-color: var(--wrong);
-        background: rgba(239,68,68,0.1);
-      }
-
+      .question-text { font-size: 1.05rem; font-weight: 500; color: var(--text); line-height: 1.65; margin-bottom: 1.75rem; }
+      .option-btn { display: flex; align-items: flex-start; gap: 0.85rem; width: 100%; background: var(--surface2); border: 2px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.6rem; cursor: pointer; transition: all 0.18s; text-align: left; color: var(--text); font-size: 0.93rem; font-family: 'DM Sans', sans-serif; }
+      .option-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(245,166,35,0.07); }
+      .option-btn.selected { border-color: var(--accent); background: rgba(245,166,35,0.1); }
+      .option-btn.correct { border-color: var(--correct); background: rgba(34,197,94,0.1); }
+      .option-btn.wrong { border-color: var(--wrong); background: rgba(239,68,68,0.1); }
       .option-btn:disabled { cursor: default; }
-
-      .option-letter {
-        font-family: 'Space Mono', monospace;
-        font-size: 0.75rem;
-        font-weight: 700;
-        min-width: 22px;
-        height: 22px;
-        border-radius: 5px;
-        background: var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-muted);
-        flex-shrink: 0;
-        margin-top: 2px;
-      }
-
+      .option-letter { font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; min-width: 22px; height: 22px; border-radius: 5px; background: var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex-shrink: 0; margin-top: 2px; }
       .option-btn.selected .option-letter { background: var(--accent); color: #0a0e1a; }
       .option-btn.correct .option-letter { background: var(--correct); color: #fff; }
       .option-btn.wrong .option-letter { background: var(--wrong); color: #fff; }
-
-      /* Explanation box */
-      .explanation-box {
-        margin-top: 1.25rem;
-        background: rgba(62,207,142,0.07);
-        border: 1px solid rgba(62,207,142,0.25);
-        border-radius: 10px;
-        padding: 1rem 1.25rem;
-        font-size: 0.9rem;
-        color: var(--accent2);
-        line-height: 1.65;
-        animation: fadeIn 0.3s ease;
-      }
-
-      .explanation-box .exp-title {
-        font-weight: 700;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-        margin-bottom: 0.4rem;
-        font-family: 'Space Mono', monospace;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(6px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      /* Score display */
-      .score-big {
-        font-family: 'Space Mono', monospace;
-        font-size: 4rem;
-        font-weight: 700;
-        color: var(--accent);
-        line-height: 1;
-        margin: 0.5rem 0;
-      }
-
-      .score-detail {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
-        margin: 1.5rem 0;
-      }
-
-      .score-item {
-        background: var(--surface2);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 1rem;
-        text-align: center;
-      }
-
-      .score-item .si-label {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-family: 'Space Mono', monospace;
-        margin-bottom: 0.25rem;
-      }
-
-      .score-item .si-val {
-        font-size: 1.5rem;
-        font-weight: 700;
-        font-family: 'Space Mono', monospace;
-        color: var(--text);
-      }
-
-      /* Admin table */
+      .explanation-box { margin-top: 1.25rem; background: rgba(62,207,142,0.07); border: 1px solid rgba(62,207,142,0.25); border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--accent2); line-height: 1.65; animation: fadeIn 0.3s ease; }
+      .explanation-box .exp-title { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; font-family: 'Space Mono', monospace; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+      .score-big { font-family: 'Space Mono', monospace; font-size: 4rem; font-weight: 700; color: var(--accent); line-height: 1; margin: 0.5rem 0; }
+      .score-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.5rem 0; }
+      .score-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
+      .score-item .si-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Space Mono', monospace; margin-bottom: 0.25rem; }
+      .score-item .si-val { font-size: 1.5rem; font-weight: 700; font-family: 'Space Mono', monospace; color: var(--text); }
       .admin-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-      .admin-table th {
-        background: var(--surface2);
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-size: 0.72rem;
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border);
-        font-family: 'Space Mono', monospace;
-      }
-      .admin-table td {
-        padding: 0.8rem 1rem;
-        border-bottom: 1px solid rgba(42,58,92,0.5);
-        color: var(--text);
-      }
+      .admin-table th { background: var(--surface2); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-family: 'Space Mono', monospace; }
+      .admin-table td { padding: 0.8rem 1rem; border-bottom: 1px solid rgba(42,58,92,0.5); color: var(--text); }
       .admin-table tr:hover td { background: var(--surface2); }
-
-      .stat-card {
-        background: var(--surface2);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.25rem;
-      }
-
-      .stat-card .sc-label {
-        font-size: 0.72rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-        font-family: 'Space Mono', monospace;
-        margin-bottom: 0.5rem;
-      }
-
-      .stat-card .sc-val {
-        font-size: 2rem;
-        font-weight: 700;
-        font-family: 'Space Mono', monospace;
-        color: var(--accent);
-      }
-
-      .header-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-
-      .btn-sm {
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        cursor: pointer;
-        border: 1px solid var(--border);
-        background: var(--surface2);
-        color: var(--text-muted);
-        font-family: 'DM Sans', sans-serif;
-        transition: all 0.2s;
-      }
-
+      .stat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+      .stat-card .sc-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: 'Space Mono', monospace; margin-bottom: 0.5rem; }
+      .stat-card .sc-val { font-size: 2rem; font-weight: 700; font-family: 'Space Mono', monospace; color: var(--accent); }
+      .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+      .btn-sm { padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
       .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
       .btn-sm.accent { background: var(--accent); color: #0a0e1a; border-color: var(--accent); font-family: 'Space Mono', monospace; }
       .btn-sm.accent:hover { opacity: 0.85; }
-
-      .quiz-header {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1rem 1.5rem;
-        margin-bottom: 1.25rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-
-      .next-btn {
-        display: block;
-        margin: 1.5rem auto 0;
-        background: var(--accent2);
-        color: #0a0e1a;
-        border: none;
-        border-radius: 10px;
-        padding: 0.85rem 2.5rem;
-        font-size: 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: 'Space Mono', monospace;
-        letter-spacing: 0.04em;
-        transition: opacity 0.2s, transform 0.1s;
-      }
+      .quiz-header { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+      .next-btn { display: block; margin: 1.5rem auto 0; background: var(--accent2); color: #0a0e1a; border: none; border-radius: 10px; padding: 0.85rem 2.5rem; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Space Mono', monospace; letter-spacing: 0.04em; transition: opacity 0.2s, transform 0.1s; }
       .next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
       .next-btn.submit { background: var(--accent); }
-
       .footer { text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.78rem; font-family: 'Space Mono', monospace; }
-
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-      }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
       .pulse { animation: pulse 1s infinite; }
-
-      .tab-warning {
-        background: rgba(248,113,113,0.1);
-        border: 1px solid rgba(248,113,113,0.3);
-        border-radius: 8px;
-        padding: 0.5rem 0.85rem;
-        font-size: 0.82rem;
-        color: var(--danger);
-        font-family: 'Space Mono', monospace;
-      }
-
+      .tab-warning { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; padding: 0.5rem 0.85rem; font-size: 0.82rem; color: var(--danger); font-family: 'Space Mono', monospace; }
       .overflow-x { overflow-x: auto; }
-      .mt1 { margin-top: 1rem; }
-      .mb1 { margin-bottom: 1rem; }
-      .mb2 { margin-bottom: 2rem; }
-      .text-muted { color: var(--text-muted); }
-      .text-sm { font-size: 0.82rem; }
+      .mt1 { margin-top: 1rem; } .mb1 { margin-bottom: 1rem; } .mb2 { margin-bottom: 2rem; }
+      .text-muted { color: var(--text-muted); } .text-sm { font-size: 0.82rem; }
       .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
-      @media (max-width: 600px) {
-        .stat-grid { grid-template-columns: repeat(2, 1fr); }
-        h1 { font-size: 1.35rem; }
-        .score-big { font-size: 3rem; }
-      }
+      .change-hint { font-size: 0.78rem; color: var(--text-muted); font-family: 'Space Mono', monospace; text-align: center; margin-top: 0.5rem; opacity: 0.7; }
+      @media (max-width: 600px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } h1 { font-size: 1.35rem; } .score-big { font-size: 3rem; } }
     </style>
   </head>
   <body>
@@ -539,253 +121,759 @@
 
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQ49ebOvpIuttMBXh7gkCRU857mK6T0Hr3v4yiEisPzHjwHdaPFyD744kWGVu81KymqA/exec";
       const ADMIN_PASSWORD = "admin123";
-      const TIME_PER_QUESTION = 20;
+      const TIME_PER_QUESTION = 30;
       const TAB_SWITCH_PENALTY = 0.5;
+      const LETTERS = ['A','B','C','D'];
 
-      const questions = [
+      // ─────────────────────────────────────────────
+      // GROUP 1 — SILVER LEACHING FROM SPENT PVs
+      // ─────────────────────────────────────────────
+      const group1Questions = [
         {
           id: 1,
-          question: "The term \"PV\" most accurately refers to:",
+          question: "In the study by Jiajia Tian et al. (2023), what HNO₃ concentration was identified as optimal for silver recovery, and what was the reported recovery rate?",
           options: [
-            "A complete packaged module ready for installation",
-            "The light-to-electricity conversion effect/technology",
-            "A grid-connected solar power system",
-            "A laminated glass-covered device"
+            "1–2 N under hydrothermal conditions, achieving 100%",
+            "18% HNO₃, achieving 98.02%",
+            "0.5 M HNO₃ at 85°C, achieving 99%",
+            "2.0–4.0 M HNO₃, achieving 98.02%"
           ],
           correctAnswer: 1,
-          explanation: "PV refers to the photovoltaic effect/technology that converts light directly into electricity. A solar panel is the packaged product."
+          explanation: "Tian et al. (2023) used 18% HNO₃ and reported 98.02% silver recovery. Option A belongs to Kastanaki et al. (2023), Option C to Mwase et al. (2024), and Option D mixes Lee et al.'s (2025) concentration range with Tian's recovery figure. Reference: Jiajia Tian et al., 2023."
         },
         {
           id: 2,
-          question: "A solar panel is best defined as:",
+          question: "Which lixiviant system achieved greater than 85% silver recovery at room temperature without any acid heating requirement?",
           options: [
-            "A single semiconductor junction",
-            "A collection of PV cells laminated and packaged",
-            "A standalone PV inverter system",
-            "A thin-film semiconductor layer"
+            "0.5 M HNO₃ alone",
+            "1 M oxalic acid under hydrothermal conditions",
+            "0.2 M H₂SO₄ combined with 0.15 M ferric sulfate",
+            "2.0 M HNO₃ with electrodeposition post-processing"
           ],
-          correctAnswer: 1,
-          explanation: "A solar panel (PV module) consists of many PV cells wired together and packaged for durability and usable voltage."
+          correctAnswer: 2,
+          explanation: "Ghorbanpour et al. (2025) used an H₂SO₄ + ferric sulfate system achieving >85% Ag recovery at room temperature — a key advantage. All other options require heat or are acid-only systems. Reference: Payam Ghorbanpour et al., 2025."
         },
         {
           id: 3,
-          question: "The primary function of a PV cell is to:",
+          question: "Kastanaki et al. (2023) achieved 100% silver leaching using nitric acid. What were the precise conditions reported?",
           options: [
-            "Store electrical energy",
-            "Convert DC to AC",
-            "Convert light directly into DC electricity",
-            "Concentrate sunlight"
+            "18% HNO₃ at ambient temperature",
+            "1–2 N HNO₃ under hydrothermal conditions",
+            "1–10 mol/L HNO₃ at 85°C",
+            "0.5 M HNO₃ under hydrothermal conditions"
           ],
-          correctAnswer: 2,
-          explanation: "A PV cell converts light directly into DC electricity (~0.5–0.6 V per cell)."
+          correctAnswer: 1,
+          explanation: "Kastanaki et al. (2023) used 1–2 N HNO₃ under hydrothermal conditions to achieve 100%. Option D uses hydrothermal conditions but the wrong concentration (0.5 M belongs to Mwase et al., 2024). Reference: Eleni Kastanaki et al., 2023."
         },
         {
           id: 4,
-          question: "Crystalline silicon PVs fall under which generation?",
+          question: "The highest silver recovery percentage reported across all reviewed studies was 99.98%. Which study achieved this, and with what lixiviant?",
           options: [
-            "Second generation",
-            "Third generation",
-            "First generation",
-            "Fourth generation"
+            "J. Mwase et al., 2024 — 0.5 M HNO₃ at 85°C",
+            "Eleni Kastanaki et al., 2023 — 1–2 N HNO₃ hydrothermal",
+            "L. S. Oliveira et al., 2020 — 1–10 mol/L HNO₃",
+            "Jiajia Tian et al., 2023 — 18% HNO₃"
           ],
           correctAnswer: 2,
-          explanation: "Monocrystalline and polycrystalline silicon are first-generation, wafer-based technologies."
+          explanation: "Oliveira et al. (2020) is the only study reporting 99.98% recovery using 1–10 mol/L HNO₃. Kastanaki (100%) and Mwase (99%) are close numerically but belong to different studies. Reference: L. S. Oliveira et al., 2020."
         },
         {
           id: 5,
-          question: "CdTe and CIGS are classified as:",
+          question: "In the context of spent PV module processing, hydrochloric acid (5% HCl) was used by Mwase et al. (2024). What was its primary function?",
           options: [
-            "First-generation crystalline PV",
-            "Second-generation thin-film PV",
-            "Third-generation perovskites",
-            "Fourth-generation hybrids"
+            "Direct silver leaching as the main lixiviant",
+            "pH adjustment before nitric acid leaching",
+            "Aluminum removal as a preprocessing step",
+            "Passivation layer dissolution to enhance Ag recovery"
           ],
-          correctAnswer: 1,
-          explanation: "CdTe and CIGS belong to second-generation thin-film PV technologies."
+          correctAnswer: 2,
+          explanation: "HCl was used specifically for aluminum removal as a preprocessing step, not for silver leaching. Its role is preparatory, not the primary leaching agent. Reference: J. Mwase et al., 2024."
         },
         {
           id: 6,
-          question: "Perovskite solar cells are categorized as:",
+          question: "Jackson Lee et al. (2025) recommended an HNO₃ concentration range for industrial application paired with which downstream recovery process?",
           options: [
-            "First generation",
-            "Second generation",
-            "Third generation",
-            "Wafer-based crystalline PV"
+            "0.5–1 M HNO₃ followed by solvent extraction",
+            "1–2 N HNO₃ followed by precipitation",
+            "2.0–4.0 M HNO₃ followed by electrodeposition",
+            "18% HNO₃ followed by electrodeposition"
           ],
           correctAnswer: 2,
-          explanation: "Perovskites are classified as emerging third-generation PV technologies."
+          explanation: "Lee et al. (2025) recommended 2.0–4.0 M HNO₃ for electrodeposition as the downstream silver recovery method. Option D uses the correct downstream step but the wrong concentration (18% belongs to Tian et al., 2023). Reference: Jackson Lee et al., 2025."
         },
         {
           id: 7,
-          question: "The glass layer in a PV module primarily:",
+          question: "Among the organic acid lixiviants tested by Kastanaki et al. (2025), which acid proved more effective, and at what concentration?",
           options: [
-            "Generates electricity",
-            "Insulates against voltage leakage",
-            "Protects cells while allowing light transmission",
-            "Stores heat"
+            "Citric acid (2 M) proved more effective than oxalic acid",
+            "Oxalic acid (1 M) proved more effective than citric acid (2 M)",
+            "Both oxalic (1 M) and citric acid (2 M) achieved equal recoveries",
+            "Oxalic acid (2 M) outperformed citric acid (1 M)"
           ],
-          correctAnswer: 2,
-          explanation: "Tempered low-iron glass allows light entry and protects cells from weather and impact."
+          correctAnswer: 1,
+          explanation: "Oxalic acid at 1 M was more effective than citric acid at 2 M — despite citric acid being at higher concentration. Option D reverses the concentrations, a strong distractor. Reference: Eleni Kastanaki et al., 2025."
         },
         {
           id: 8,
-          question: "An anti-reflective coating on PV glass mainly:",
+          question: "Which of the following correctly pairs the lixiviant with its limitation as implied by the findings?",
           options: [
-            "Increases electrical insulation",
-            "Reduces reflection to improve light absorption",
-            "Prevents metal corrosion",
-            "Strengthens mechanical bonding"
+            "HNO₃ — limited by low silver recovery below 98%",
+            "Organic acids — limited by requiring elevated temperature/hydrothermal conditions",
+            "H₂SO₄ + Fe₂(SO₄)₃ — limited by requiring temperatures above 85°C",
+            "HCl — limited by inability to dissolve silver effectively at any concentration"
           ],
           correctAnswer: 1,
-          explanation: "Anti-reflective coating reduces light reflection, increasing light absorption and thus efficiency."
+          explanation: "Organic acids (oxalic and citric) were applied under hydrothermal conditions, implying an energy/temperature requirement. The H₂SO₄ system worked at room temperature (eliminating C). HNO₃ achieved up to 99.98% (eliminating A). Reference: Eleni Kastanaki et al., 2025; Payam Ghorbanpour et al., 2025."
         },
         {
           id: 9,
-          question: "EVA stands for:",
+          question: "The evidence base for silver leaching from spent PVs draws on how many studies, and which acid family dominates the literature?",
           options: [
-            "Ethylene-vinyl alcohol",
-            "Ethylene-vinyl acetate",
-            "Ethane-vinyl acetate",
-            "Ethylene-vinyl acrylate"
+            "Seven studies; sulfuric acid dominates",
+            "Nine studies; nitric acid dominates",
+            "Nine studies; organic acids dominate",
+            "Seven studies; nitric acid dominates"
           ],
           correctAnswer: 1,
-          explanation: "EVA means ethylene-vinyl acetate, the most common encapsulant used in PV modules."
+          explanation: "The findings explicitly state 'evidence across nine studies' with HNO₃ dominating. Options C and D each get one element wrong. Reference: Consolidated findings across reviewed studies."
         },
         {
           id: 10,
-          question: "The primary mechanical function of EVA is to:",
+          question: "A researcher wants to recover silver at the lowest possible acid molarity while still achieving ≥99% recovery. Based on the findings, which condition best meets this goal?",
           options: [
-            "Reflect UV radiation",
-            "Store thermal energy",
-            "Bond and cushion the cells",
-            "Convert AC to DC"
+            "18% HNO₃ (Tian et al., 2023)",
+            "1–10 mol/L HNO₃ (Oliveira et al., 2020)",
+            "0.5 M HNO₃ at 85°C (Mwase et al., 2024)",
+            "2.0 M HNO₃ with electrodeposition (Lee et al., 2025)"
           ],
           correctAnswer: 2,
-          explanation: "EVA bonds and cushions cells between the glass and backsheet, protecting them mechanically."
+          explanation: "0.5 M is the lowest molar concentration reported achieving 99% Ag recovery (Mwase et al., 2024). The trade-off is requiring 85°C. Reference: J. Mwase et al., 2024."
         },
         {
           id: 11,
-          question: "The junction box mainly:",
+          question: "Which of the following statements about the H₂SO₄/Fe₂(SO₄)₃ system is most accurate based on the findings?",
           options: [
-            "Converts DC to AC",
-            "Concentrates sunlight",
-            "Collects current and houses bypass diodes",
-            "Provides structural strength"
+            "It achieved >85% Ag recovery and requires ferric sulfate at 0.2 M",
+            "It achieved exactly 85% Ag recovery using 0.15 M H₂SO₄ and 0.2 M Fe₂(SO₄)₃",
+            "It achieved >85% Ag recovery using 0.2 M H₂SO₄ and 0.15 M ferric sulfate at room temperature",
+            "It achieved >85% Ag recovery using 0.15 M H₂SO₄ and 0.2 M ferric sulfate at room temperature"
           ],
           correctAnswer: 2,
-          explanation: "The junction box routes current from cell strings and contains bypass diodes for protection against partial shading."
+          explanation: "The concentrations are H₂SO₄ at 0.2 M and ferric sulfate at 0.15 M. Options B and D swap these values. Option A also reverses the concentrations. Reference: Payam Ghorbanpour et al., 2025."
         },
         {
           id: 12,
-          question: "When PV modules become spent, silver (Ag) primarily undergoes:",
+          question: "Across all HNO₃-based studies reviewed, what is the widest concentration range reported for a single study?",
           options: [
-            "Polymerization",
-            "Oxidation and corrosion",
-            "Melting only",
-            "Photoluminescence"
+            "1–2 N (Kastanaki et al., 2023)",
+            "0.5–4.0 M (combined industrial range)",
+            "1–10 mol/L (Oliveira et al., 2020)",
+            "2.0–4.0 M (Lee et al., 2025)"
           ],
-          correctAnswer: 1,
-          explanation: "Metals like Ag form oxides, hydroxides, and salts due to corrosion in degraded/spent modules."
+          correctAnswer: 2,
+          explanation: "1–10 mol/L from Oliveira et al. (2020) represents a 9-unit span, the widest single-study range. Lee et al.'s 2.0–4.0 M spans only 2 units. Option B combines values from multiple studies. Reference: L. S. Oliveira et al., 2020."
         },
         {
           id: 13,
-          question: "Lead (Pb) in spent PV solder tends to:",
+          question: "Which lixiviant approach is described as an 'emerging greener alternative' in the findings?",
           options: [
-            "Remain chemically unchanged",
-            "Form lead acetate complexes",
-            "Convert to silicon oxide",
-            "Evaporate under sunlight only"
+            "Higher concentrations of HNO₃ (>10 mol/L)",
+            "Organic acids and sulfuric acid-based systems",
+            "Hydrochloric acid preprocessing followed by HNO₃",
+            "Electrodeposition-coupled nitric acid leaching"
           ],
           correctAnswer: 1,
-          explanation: "Pb can preferentially corrode to lead acetate complexes, posing environmental leaching risks."
+          explanation: "The findings explicitly describe organic acids and the H₂SO₄ system as 'emerging greener alternatives showing promise.' HCl is a preprocessing step, not a greener leaching alternative. Reference: Consolidated findings."
         },
         {
           id: 14,
-          question: "During high-temperature recycling, Cd and Pb may:",
+          question: "If a student claims that citric acid at 2 M outperformed oxalic acid at 1 M in the Kastanaki et al. (2025) study, this claim is:",
           options: [
-            "Polymerize",
-            "Form only solid silicon",
-            "Redistribute into gas or ash fractions",
-            "Convert into EVA"
+            "Correct — higher molarity always improves leaching efficiency",
+            "Incorrect — oxalic acid at 1 M outperformed citric acid at 2 M",
+            "Correct — citric acid is a stronger organic acid than oxalic acid",
+            "Incorrect — both acids performed equally under hydrothermal conditions"
           ],
-          correctAnswer: 2,
-          explanation: "Metals like Cd and Pb can volatilize or redistribute into gas and ash phases during thermal processing."
+          correctAnswer: 1,
+          explanation: "The findings directly state oxalic acid proved more effective than citric acid despite citric being used at double the concentration. This challenges the assumption that higher concentration equals better performance. Reference: Eleni Kastanaki et al., 2025."
         },
         {
           id: 15,
-          question: "EVA degradation first produces:",
+          question: "Which recovery figure is incorrectly paired with its study in the options below?",
           options: [
-            "Silicon dioxide",
-            "Nitrogen oxides",
-            "Acetic acid, CO, and CO₂",
-            "Pure oxygen"
+            "98.02% — Jiajia Tian et al., 2023",
+            "100% — Eleni Kastanaki et al., 2023",
+            "99.98% — J. Mwase et al., 2024",
+            "99% — J. Mwase et al., 2024"
           ],
           correctAnswer: 2,
-          explanation: "EVA initially degrades into acetic acid, CO, and CO₂ via deacetylation reactions."
+          explanation: "99.98% belongs to L. S. Oliveira et al. (2020), not Mwase et al. (2024). Mwase et al. reported 99% recovery. Option D is correctly paired, making C the incorrect pairing. Reference: L. S. Oliveira et al., 2020; J. Mwase et al., 2024."
         },
         {
           id: 16,
-          question: "Continued EVA pyrolysis leads to:",
+          question: "A process engineer argues that HNO₃ is the only practical lixiviant for industrial silver recovery from spent PVs. Based on the findings, the strongest counterargument is:",
           options: [
-            "Only water vapor",
-            "Complex hydrocarbons (alkanes, alkenes, aromatics)",
-            "Pure methane only",
-            "Crystalline silicon"
+            "Organic acids achieved higher recoveries than HNO₃ in all studies",
+            "HCl achieved 99% silver recovery making it equally viable industrially",
+            "The H₂SO₄/ferric sulfate system achieved >85% recovery at room temperature, reducing energy costs",
+            "Kastanaki et al. (2025) proved organic acids are more selective than HNO₃"
           ],
-          correctAnswer: 1,
-          explanation: "Chain cracking of EVA at higher temperatures forms alkanes, alkenes, and aromatic hydrocarbons."
+          correctAnswer: 2,
+          explanation: "The most practical industrial counterargument is the room-temperature operation of the H₂SO₄/Fe₂(SO₄)₃ system, reducing energy costs. Organic acids require hydrothermal conditions. HCl is only a preprocessing step, not a silver lixiviant. Reference: Payam Ghorbanpour et al., 2025."
         },
         {
           id: 17,
-          question: "PVDF backsheet pyrolysis releases:",
+          question: "What key limitation of organic acid lixiviants can be inferred from the conditions used in Kastanaki et al. (2025)?",
           options: [
-            "Only hydrogen gas",
-            "CF₂, F₂, and fluorinated fragments",
-            "Silicon carbide",
-            "Metallic silver"
+            "They cannot dissolve silver even at high concentrations",
+            "They require hydrothermal processing conditions, implying higher energy input",
+            "They are more corrosive than HNO₃ at equivalent concentrations",
+            "They were only tested at concentrations below 0.5 M, limiting comparative data"
           ],
           correctAnswer: 1,
-          explanation: "PVDF decomposition releases CF₂, F₂, CH₂, and other fluorinated fragments during thermal recycling."
+          explanation: "Hydrothermal conditions inherently require elevated pressure and temperature, implying greater energy demand compared to room-temperature systems. This is the inferable limitation from the experimental conditions described. Reference: Eleni Kastanaki et al., 2025."
         },
         {
           id: 18,
-          question: "Corrosion in spent PV modules is accelerated mainly by:",
+          question: "Across all studies, which lixiviant concentration was used to achieve silver recovery in the range of 99–100% under the mildest acid conditions?",
           options: [
-            "Increased glass thickness",
-            "Acetic acid and halogenated degradation products",
-            "Higher sunlight intensity",
-            "Silicon purity"
+            "18% HNO₃ (Tian et al., 2023) — 98.02%",
+            "1–2 N HNO₃ hydrothermal (Kastanaki et al., 2023) — 100%",
+            "0.5 M HNO₃ at 85°C (Mwase et al., 2024) — 99%",
+            "2.0–4.0 M HNO₃ (Lee et al., 2025) — range not specified"
           ],
-          correctAnswer: 1,
-          explanation: "Degradation products like acetic acid promote metal ion migration and corrosion within the module."
+          correctAnswer: 2,
+          explanation: "0.5 M is the mildest (lowest) acid concentration achieving 99% recovery. While 1–2 N achieves 100%, that is ≈1–2 M — still higher than 0.5 M. The question specifically asks for the mildest acid condition meeting the 99–100% threshold. Reference: J. Mwase et al., 2024."
         },
         {
           id: 19,
-          question: "III–V multijunction cells (e.g., GaAs stacks) are mainly used for:",
+          question: "Which two studies reported silver recovery at or above 99.9% (i.e., the highest-performing group)?",
           options: [
-            "Low-cost residential rooftops",
-            "Space or concentrator systems due to high efficiency",
-            "Flexible polymer modules",
-            "Glass-free modules"
+            "Tian et al. (2023) and Mwase et al. (2024)",
+            "Kastanaki et al. (2023) and Oliveira et al. (2020)",
+            "Oliveira et al. (2020) and Ghorbanpour et al. (2025)",
+            "Kastanaki et al. (2023) and Lee et al. (2025)"
           ],
           correctAnswer: 1,
-          explanation: "III–V multijunction cells have very high efficiency but are costly, mainly used in space and concentrator systems."
+          explanation: "Kastanaki et al. (2023) achieved 100% and Oliveira et al. (2020) achieved 99.98% — both at or above 99.9%. Tian achieved 98.02% and Mwase 99%, neither reaching 99.9%. Reference: Eleni Kastanaki et al., 2023; L. S. Oliveira et al., 2020."
         },
         {
           id: 20,
-          question: "The main difference between a PV cell and a solar panel is that:",
+          question: "Based on the collective findings, which statement most accurately characterizes the current state of the literature on silver leaching from spent PV modules?",
           options: [
-            "A PV cell produces AC, a panel produces DC",
-            "A PV cell is the light-conversion device; a panel is an assembly of many cells",
-            "A panel works without light",
-            "A cell includes bypass diodes"
+            "The field has reached consensus, with HNO₃ at 18% established as the universal standard",
+            "The evidence base is substantial but dominated by HNO₃, with greener alternatives showing early promise",
+            "Organic acids have replaced HNO₃ as the preferred lixiviant in recent studies post-2023",
+            "The evidence base is limited to fewer than five studies, making conclusions premature"
           ],
           correctAnswer: 1,
-          explanation: "A PV cell performs light-to-DC conversion; a solar panel is a packaged assembly of many PV cells connected together."
+          explanation: "This is directly stated in the findings: 'The evidence base is substantial but HNO₃-dominated, with emerging greener alternatives showing promise.' No universal standard has been set, and nine studies constitute a substantial base. Reference: Consolidated findings."
         }
       ];
 
-      const LETTERS = ['A','B','C','D'];
+      // ─────────────────────────────────────────────
+      // GROUP 2 — Cu, Pb, Sn RECOVERY + HYDROPHOBICITY
+      // ─────────────────────────────────────────────
+      const group2Questions = [
+        {
+          id: 1,
+          question: "Copper powder's intrinsic hydrophobicity compared to tin-lead alloy powder is primarily attributed to which factors?",
+          options: [
+            "Its higher electrical conductivity and crystalline density",
+            "Its surface electronic properties and morphology",
+            "Its resistance to oxidation and lower surface roughness",
+            "Its electrical conductivity and lower surface energy"
+          ],
+          correctAnswer: 1,
+          explanation: "Copper is more hydrophobic than tin-lead alloy 'primarily due to its surface electronic properties and morphology.' Electrical conductivity is directly stated as NOT playing a significant role — making Options A and D deliberate traps. Reference: Sources 2, 4, 3."
+        },
+        {
+          id: 2,
+          question: "Which statement about electrical conductivity and copper's wettability is most accurate according to the findings?",
+          options: [
+            "Higher electrical conductivity directly enhances copper's hydrophobic behavior",
+            "Electrical conductivity plays a minor but measurable role in copper's hydrophobicity",
+            "Electrical conductivity does not directly affect copper's hydrophobic or hydrophilic nature",
+            "Electrical conductivity determines wettability more than surface morphology does"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings explicitly state 'electrical conductivity does not directly affect copper's hydrophobic or hydrophilic nature' and that hydrophobicity is influenced more by surface morphology and chemical state. Reference: Sources 2, 3."
+        },
+        {
+          id: 3,
+          question: "Superhydrophobic coatings on copper substrates have been achieved through which specific method?",
+          options: [
+            "Thermal annealing at high temperatures to restructure the surface lattice",
+            "Electrochemical deposition of compounds creating micro/nanostructured roughness and low surface energy",
+            "Chemical etching with HCl to increase surface roughness and reduce surface energy",
+            "Physical vapor deposition of low-energy polymer films onto copper surfaces"
+          ],
+          correctAnswer: 1,
+          explanation: "The findings specify electrochemical deposition of specific compounds creating micro/nanostructured roughness and low surface energy as the method for superhydrophobic copper surfaces. Reference: Source 5."
+        },
+        {
+          id: 4,
+          question: "Compared to copper powder, tin-lead alloy powders are generally described as:",
+          options: [
+            "More hydrophobic due to the combined surface energies of tin and lead",
+            "Equally hydrophobic because both are metallic and conductive",
+            "More hydrophilic because their surface chemistry and morphology do not favor strong hydrophobic interactions",
+            "More hydrophobic only when surface roughness is minimized"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings directly state tin-lead alloys 'tend to be more hydrophilic compared to copper powders' because their surface chemistry and morphology do not favor strong hydrophobic interactions. Reference: Source 4."
+        },
+        {
+          id: 5,
+          question: "A researcher argues that the hydrophobicity difference between copper and tin-lead alloy powders can be eliminated simply by increasing the alloy's surface roughness. Based on the findings, this claim is:",
+          options: [
+            "Fully supported — surface roughness is the dominant factor controlling wettability in all metal powders",
+            "Partially supported — roughness influences wettability in alloys but typically still results in less hydrophobicity than copper",
+            "Fully refuted — surface roughness has no effect on wettability of any metal powder",
+            "Fully supported — alloy surface roughness and composition always produce hydrophobicity equal to copper"
+          ],
+          correctAnswer: 1,
+          explanation: "The findings acknowledge that 'alloy surface roughness and composition can influence wettability but typically result in less hydrophobicity than copper.' Roughness matters, but it doesn't close the gap to copper's hydrophobicity. Reference: Source 4."
+        },
+        {
+          id: 6,
+          question: "The earliest thermal recovery method for copper from spent PVs reported approximately what purity level, and in which study?",
+          options: [
+            "99.99% Cu purity — Jin-Seok Lee et al., 2016",
+            "~96% Cu purity — Jin-Seok Lee et al., 2013",
+            "~96% Cu purity — Jin-Seok Lee et al., 2016",
+            "4N-grade Cu — Jin-Seok Lee et al., 2013"
+          ],
+          correctAnswer: 1,
+          explanation: "The 2013 study achieved ~96% Cu purity using early thermal methods. The 2016 study by the same authors later refined this to 4N-grade (≥99.99%) using zone-melting. Options C and D swap the years. Reference: Jin-Seok Lee et al., 2013."
+        },
+        {
+          id: 7,
+          question: "Zone-melting was used to achieve 4N-grade copper (≥99.99% purity). Which study introduced this refinement, and when?",
+          options: [
+            "Jin-Seok Lee et al., 2013 — representing the first thermal approach",
+            "Wei Sheng Chen et al., 2020 — as part of chemical extraction",
+            "Jin-Seok Lee et al., 2016 — refining the earlier thermal method",
+            "Wen-Hsi Huang et al., 2016 — combined with electrowinning"
+          ],
+          correctAnswer: 2,
+          explanation: "Zone-melting for 4N-grade Cu belongs to Lee et al. (2016) as a refinement of their 2013 thermal work. Option D is a strong distractor since Huang et al. also published in 2016 but used electrowinning, not zone-melting. Reference: Jin-Seok Lee et al., 2016."
+        },
+        {
+          id: 8,
+          question: "Wei Sheng Chen et al. (2020) used hydrochloric acid leaching followed by solvent extraction. What were the reported recovery efficiencies for Cu, Pb, and Sn?",
+          options: [
+            "99% Cu and >95% Pb/Sn recovery",
+            "99.64% Cu extraction efficiency and ~99% Pb/Sn recovery",
+            "99.64% Cu and 88% Pb/Sn recovery",
+            "~99% Cu and 99.64% Pb/Sn recovery"
+          ],
+          correctAnswer: 1,
+          explanation: "Chen et al. (2020) reported 99.64% Cu extraction and ~99% Pb/Sn recovery. Option D swaps the figures. Option C uses 88% which belongs to Ag recovery in Modrzynski et al. (2022). Reference: Wei Sheng Chen et al., 2020."
+        },
+        {
+          id: 9,
+          question: "Christian Modrzynski et al. (2022) used peroxydisulfate leaching. What recovery yields were reported for copper and silver respectively?",
+          options: [
+            "83% Cu and 74% Ag",
+            "99% Cu and 99% Ag",
+            "99% Cu and 88% Ag",
+            "88% Cu and 99% Ag"
+          ],
+          correctAnswer: 2,
+          explanation: "Modrzynski et al. (2022) reported 99% Cu and 88% Ag. Option A belongs to Huang et al. (2016) sequential electrowinning. Option D swaps the two figures. Reference: Christian Modrzynski et al., 2022."
+        },
+        {
+          id: 10,
+          question: "Sequential electrowinning by Wen-Hsi Huang et al. (2016) achieved what recovery rates for copper and silver?",
+          options: [
+            "99% Cu and 88% Ag",
+            "83% Cu and 99% Ag",
+            "83% Cu and 74% Ag",
+            "88% Cu and 83% Ag"
+          ],
+          correctAnswer: 2,
+          explanation: "Huang et al. (2016) reported 83% Cu and 74% Ag — the lowest recovery figures among electrochemical methods reviewed. Option A belongs to Modrzynski et al. (2022). Option B reverses which metal achieved the higher recovery. Reference: Wen-Hsi Huang et al., 2016."
+        },
+        {
+          id: 11,
+          question: "Shun Dai et al. (2025) represents the most recent approach reviewed. What lixiviant combination was used and what copper purity was achieved?",
+          options: [
+            "Peroxydisulfate leaching, achieving 99% pure Cu",
+            "Acetic acid/hydrogen peroxide combination, achieving >95% pure Cu",
+            "Hydrochloric acid/solvent extraction, achieving >95% pure Cu",
+            "Acetic acid/hydrogen peroxide combination, achieving ≥99.99% pure Cu"
+          ],
+          correctAnswer: 1,
+          explanation: "Dai et al. (2025) used acetic acid/H₂O₂ — a green approach — achieving >95% pure Cu with reduced secondary waste. Option D uses the correct lixiviant but applies the 4N-grade purity (≥99.99%) which belongs to Lee et al.'s zone-melting process. Reference: Shun Dai et al., 2025."
+        },
+        {
+          id: 12,
+          question: "What specific environmental advantage of the Dai et al. (2025) approach is highlighted in the findings?",
+          options: [
+            "It operates at room temperature, avoiding energy-intensive heating",
+            "It achieves the highest copper purity of all reviewed methods",
+            "It reduces secondary waste compared to conventional approaches",
+            "It eliminates the need for any chemical lixiviants entirely"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings describe Dai et al.'s approach as a 'green approach' specifically noting 'reduced secondary waste.' Option B is false (>95% is not the highest purity — Lee et al. achieved 4N-grade). Option D contradicts the method itself. Reference: Shun Dai et al., 2025."
+        },
+        {
+          id: 13,
+          question: "The evolution of Cu/Pb/Sn recovery methods spans which time period, and how did the methods transition according to the findings?",
+          options: [
+            "2013–2025; from chemical to thermal to electrochemical approaches",
+            "2016–2025; from electrochemical to green chemistry approaches",
+            "2013–2025; from thermal and acid-leaching to electrochemical and selective chemical extraction",
+            "2013–2022; from thermal to electrochemical, with green methods still emerging"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings explicitly describe evolution 'from thermal and acid-leaching approaches (2013–2016) to more sophisticated electrochemical and selective chemical extraction methods (2020–2025).' Option D incorrectly terminates the timeline at 2022. Reference: Consolidated findings."
+        },
+        {
+          id: 14,
+          question: "Which two studies were published in the same year, yet used fundamentally different recovery approaches?",
+          options: [
+            "Lee et al. (2013) and Chen et al. (2020) — both thermal methods",
+            "Lee et al. (2016) and Huang et al. (2016) — thermal/zone-melting vs. electrowinning",
+            "Modrzynski et al. (2022) and Huang et al. (2016) — both electrochemical",
+            "Chen et al. (2020) and Modrzynski et al. (2022) — acid leaching vs. electrochemical"
+          ],
+          correctAnswer: 1,
+          explanation: "Both Lee et al. and Huang et al. published in 2016 but used completely different methods — zone-melting for 4N Cu purity vs. sequential electrowinning for 83% Cu/74% Ag. Reference: Jin-Seok Lee et al., 2016; Wen-Hsi Huang et al., 2016."
+        },
+        {
+          id: 15,
+          question: "Comparing Modrzynski et al. (2022) and Huang et al. (2016), both used electrochemical approaches. What was the key difference in copper recovery?",
+          options: [
+            "Modrzynski achieved 83% Cu; Huang achieved 99% Cu",
+            "Modrzynski achieved 99% Cu; Huang achieved 83% Cu",
+            "Both achieved 99% Cu but differed in silver recovery only",
+            "Modrzynski achieved 88% Cu; Huang achieved 83% Cu"
+          ],
+          correctAnswer: 1,
+          explanation: "Modrzynski (peroxydisulfate leaching) achieved 99% Cu while Huang (sequential electrowinning) achieved only 83% Cu, demonstrating that electrochemical method design significantly affects outcomes. Reference: Christian Modrzynski et al., 2022; Wen-Hsi Huang et al., 2016."
+        },
+        {
+          id: 16,
+          question: "A student claims that chemical extraction methods (post-2020) always outperform thermal methods (2013–2016) in copper purity. Which finding most directly challenges this claim?",
+          options: [
+            "Chen et al. (2020) achieved 99.64% Cu, lower than Lee et al.'s (2016) 4N-grade (≥99.99%)",
+            "Dai et al. (2025) only achieved >95% Cu purity, lower than all thermal methods",
+            "Huang et al. (2016) achieved only 83% Cu using electrowinning",
+            "Modrzynski et al. (2022) achieved 99% Cu, matching but not exceeding thermal methods"
+          ],
+          correctAnswer: 0,
+          explanation: "Lee et al. (2016) achieved ≥99.99% (4N-grade) via zone-melting — higher than Chen et al.'s 99.64% chemical extraction. This directly contradicts the blanket claim that post-2020 chemical methods always surpass thermal methods in purity. Reference: Jin-Seok Lee et al., 2016; Wei Sheng Chen et al., 2020."
+        },
+        {
+          id: 17,
+          question: "Which method is the only one reviewed that simultaneously reported high recovery for three metals (Cu, Pb, AND Sn) in a single process?",
+          options: [
+            "Peroxydisulfate leaching — Modrzynski et al., 2022",
+            "Zone-melting — Lee et al., 2016",
+            "HCl leaching + solvent extraction — Chen et al., 2020",
+            "Acetic acid/H₂O₂ — Dai et al., 2025"
+          ],
+          correctAnswer: 2,
+          explanation: "Chen et al. (2020) is the only study explicitly reporting recovery for all three metals: 99.64% Cu and ~99% Pb/Sn. Other studies focus on Cu and/or Ag, not Pb and Sn simultaneously. Reference: Wei Sheng Chen et al., 2020."
+        },
+        {
+          id: 18,
+          question: "Based on the chronological progression of methods, which era marks the shift toward electrochemical and selective chemical extraction for spent PV metals?",
+          options: [
+            "2013–2016",
+            "2016–2020",
+            "2020–2025",
+            "2022–2025"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings specifically bracket 'more sophisticated electrochemical and selective chemical extraction methods' within 2020–2025. Option D omits Chen et al. (2020) which was the first post-2016 chemical extraction study in the timeline. Reference: Consolidated findings."
+        },
+        {
+          id: 19,
+          question: "If ranked by reported copper recovery/purity from lowest to highest, which order is correct?",
+          options: [
+            "Huang (83%) → Dai (>95%) → Lee 2013 (~96%) → Modrzynski (99%) → Chen (99.64%) → Lee 2016 (≥99.99%)",
+            "Dai (>95%) → Huang (83%) → Lee 2013 (~96%) → Chen (99.64%) → Modrzynski (99%) → Lee 2016 (≥99.99%)",
+            "Huang (83%) → Lee 2013 (~96%) → Dai (>95%) → Modrzynski (99%) → Chen (99.64%) → Lee 2016 (≥99.99%)",
+            "Lee 2013 (~96%) → Huang (83%) → Dai (>95%) → Chen (99.64%) → Modrzynski (99%) → Lee 2016 (≥99.99%)"
+          ],
+          correctAnswer: 0,
+          explanation: "Correct ascending order: 83% (Huang) → >95% (Dai) → ~96% (Lee 2013) → 99% (Modrzynski) → 99.64% (Chen) → ≥99.99% (Lee 2016). Options C and D misplace Lee 2013 above Dai without justification. Reference: Consolidated findings."
+        },
+        {
+          id: 20,
+          question: "Which overall conclusion about recovery efficiency trends is most directly supported by the findings?",
+          options: [
+            "Thermal methods remain superior to chemical and electrochemical methods in all metrics",
+            "Recovery efficiencies have improved substantially, with modern methods achieving >99% purity for multiple metals simultaneously",
+            "Electrochemical methods consistently outperform all other approaches in both purity and selectivity",
+            "Green chemistry approaches have replaced electrochemical methods as the dominant recovery strategy by 2025"
+          ],
+          correctAnswer: 1,
+          explanation: "This is directly stated in the findings: 'recovery efficiencies have improved substantially, with modern methods achieving >99% purity for multiple metals simultaneously.' Option C is refuted by Huang et al.'s 83% Cu result. Option D overstates one 2025 study as a complete paradigm shift. Reference: Consolidated findings."
+        }
+      ];
+
+      // ─────────────────────────────────────────────
+      // GROUP 3 — ALUMINIUM LEACHING FROM SPENT PVs
+      // ─────────────────────────────────────────────
+      const group3Questions = [
+        {
+          id: 1,
+          question: "Weiyao Li et al. (2024) reported aluminum extraction using an H₂O₂-H₂SO₄ system. What was the exact extraction efficiency achieved?",
+          options: [
+            "99.9% using sequential acid-base treatment",
+            "99.20% using H₂O₂-H₂SO₄",
+            "99% using H₂SO₄ at room temperature",
+            "99.20% using H₂SO₄ alone at 12 M"
+          ],
+          correctAnswer: 1,
+          explanation: "Li et al. (2024) specifically used the H₂O₂-H₂SO₄ combination and achieved 99.20%. Option D uses the correct recovery figure but attributes it to H₂SO₄ alone at 12 M. Option A (99.9%) belongs to Chen et al. (2020). Reference: Weiyao Li et al., 2024."
+        },
+        {
+          id: 2,
+          question: "Wei-Sheng Chen et al. (2020) achieved 99.9% aluminum extraction efficiency. What treatment sequence was required to reach this result?",
+          options: [
+            "3 M HNO₃ followed by 4 M NaOH",
+            "4 M NaOH followed by 3 M HNO₃",
+            "4 M HNO₃ followed by 3 M NaOH",
+            "4 M HNO₃ alone at elevated temperature"
+          ],
+          correctAnswer: 2,
+          explanation: "The correct sequence is 4 M HNO₃ first, then 3 M NaOH. Options A and B reverse either the concentrations or the order. Option D is a trap since HNO₃ alone was insufficient to achieve 99.9%. Reference: Wei-Sheng Chen et al., 2020."
+        },
+        {
+          id: 3,
+          question: "What does the requirement for sequential HNO₃/NaOH treatment in Chen et al. (2020) reveal as a limitation of HNO₃?",
+          options: [
+            "HNO₃ cannot dissolve aluminum at any concentration",
+            "HNO₃ alone was insufficient for complete Al extraction, requiring alkaline post-treatment",
+            "HNO₃ at 4 M causes Al-Si alloy formation that prevents dissolution",
+            "HNO₃ requires temperatures above 80°C to achieve any Al leaching"
+          ],
+          correctAnswer: 1,
+          explanation: "The need for a two-step process directly implies HNO₃ alone was insufficient. Option C describes a real limitation but at a different concentration (5 N, from Kastanaki et al., 2023), not the mechanism in Chen et al. Reference: Wei-Sheng Chen et al., 2020."
+        },
+        {
+          id: 4,
+          question: "At 5 N HNO₃ (80°C, 1 hour), what aluminum leaching efficiency was reported, and what caused the incomplete dissolution?",
+          options: [
+            "76% Al leached; caused by Al₂O₃ layer formation",
+            "56.6% Al leached; caused by Al-Si alloy formation",
+            "76% Al leached; caused by Al-Si alloy formation",
+            "61.3% Al leached; caused by Al-Si alloy formation"
+          ],
+          correctAnswer: 2,
+          explanation: "At 5 N HNO₃, 76% was leached and Al-Si alloy formation was the cause of incomplete dissolution. Options B and D use the lower efficiency figures (56.6–61.3%) which belong to lower temperature conditions (25–45°C), not 80°C treatment. Reference: Eleni Kastanaki et al., 2023."
+        },
+        {
+          id: 5,
+          question: "At lower temperatures (25–45°C), what range of Al leaching efficiency was reported by Kastanaki et al. (2023), and what two mechanisms caused the limitation?",
+          options: [
+            "76–80%; Al-Si alloy formation and surface passivation",
+            "56.6–61.3%; Al₂O₃ layer formation and Al-Si compound formation",
+            "56.6–76%; Al₂O₃ layer formation alone",
+            "61.3–76%; Al-Si compound formation and co-leaching of Ag"
+          ],
+          correctAnswer: 1,
+          explanation: "The findings specify 56.6–61.3% efficiency at 25–45°C due to both Al₂O₃ layer formation and Al-Si compound formation. Option C extends the range incorrectly to 76% (which belongs to 80°C). Option D incorrectly cites Ag co-leaching as a low-temperature mechanism. Reference: Eleni Kastanaki et al., 2023."
+        },
+        {
+          id: 6,
+          question: "Which study used HNO₃ at 1–2 N under hydrothermal conditions for aluminum leaching?",
+          options: [
+            "Wei-Sheng Chen et al., 2020",
+            "Y. K. Yi et al., 2014",
+            "Weiyao Li et al., 2024",
+            "Eleni Kastanaki et al., 2023"
+          ],
+          correctAnswer: 3,
+          explanation: "Kastanaki et al. (2023) used 1–2 N HNO₃ under hydrothermal conditions. Chen et al. (2020) used 4 M HNO₃ sequentially. Yi et al. (2014) used HNO₃/NaOH specifically for Si recovery. Reference: Eleni Kastanaki et al., 2023."
+        },
+        {
+          id: 7,
+          question: "A critical co-leaching limitation of HNO₃ identified by Kastanaki et al. (2023) was that it simultaneously extracted which other valuable metal, complicating selective recovery?",
+          options: [
+            "Lead (Pb), requiring additional purification",
+            "Silicon (Si), contaminating the aluminum leachate",
+            "Silver (Ag), complicating electrowinning if desired",
+            "Copper (Cu), increasing downstream processing costs"
+          ],
+          correctAnswer: 2,
+          explanation: "HNO₃ co-leaches both Al and Ag, which is a problem if silver electrowinning is the downstream goal. Option A (Pb co-leaching) is a real finding but belongs to HCl (Mwase et al., 2024), not HNO₃. Reference: Eleni Kastanaki et al., 2023."
+        },
+        {
+          id: 8,
+          question: "J. Mwase et al. (2024) used 5% HCl at room temperature. What was the Al extraction efficiency, and what contaminant was co-leached at approximately 70 ppm?",
+          options: [
+            "99% Al; silver (Ag) co-leached at ~70 ppm",
+            "99% Al; lead (Pb) co-leached at ~70 ppm",
+            "99.20% Al; lead (Pb) co-leached at ~70 ppm",
+            "99% Al; lead (Pb) co-leached at ~20 ppm"
+          ],
+          correctAnswer: 1,
+          explanation: "HCl achieved 99% Al extraction with ~70 ppm Pb co-leaching. Option A uses the correct recovery but assigns the wrong co-leached metal. Option D assigns Pb correctly but uses ~20 ppm — which is actually the Ag co-leaching figure, not Pb. Reference: J. Mwase et al., 2024."
+        },
+        {
+          id: 9,
+          question: "In the HCl leaching study by Mwase et al. (2024), what was the approximate amount of silver co-leached alongside aluminum?",
+          options: [
+            "~70 ppm",
+            "~50 ppm",
+            "~20 ppm",
+            "~0 ppm — HCl showed complete selectivity for Al over Ag"
+          ],
+          correctAnswer: 2,
+          explanation: "~20 ppm Ag was co-leached by HCl, while ~70 ppm was the figure for Pb. Students who confuse the two contaminant quantities will select A. Option D is false — HCl did co-leach small amounts of Ag. Reference: J. Mwase et al., 2024."
+        },
+        {
+          id: 10,
+          question: "What negative consequence did higher temperature (50°C) have during HCl leaching, according to Mwase et al. (2024)?",
+          options: [
+            "It decreased overall Al extraction efficiency below 90%",
+            "It increased Pb co-leaching and negatively affected subsequent Ag extraction in follow-up HNO₃ treatment",
+            "It caused Al₂O₃ layer formation, reducing Al dissolution",
+            "It increased Ag co-leaching to levels exceeding 70 ppm"
+          ],
+          correctAnswer: 1,
+          explanation: "At 50°C, more Pb was co-leached and downstream Ag recovery using HNO₃ was negatively affected. Option C describes a mechanism from Kastanaki et al.'s HNO₃ work at low temperatures — not HCl at 50°C. Reference: J. Mwase et al., 2024."
+        },
+        {
+          id: 11,
+          question: "What H₂SO₄ concentration was identified as necessary for selective aluminum dissolution in the Kastanaki et al. (2023) findings?",
+          options: [
+            "0.2 M — sufficient for selective leaching at room temperature",
+            "4 M — consistent with other acid concentrations in the study",
+            "12 M — very high concentration required for effective leaching",
+            "2 M — the same normality as the hydrothermal HNO₃ conditions"
+          ],
+          correctAnswer: 2,
+          explanation: "12 M H₂SO₄ was the concentration required — a key limitation being the need for such a high, hazardous concentration. Option A (0.2 M) belongs to the Ghorbanpour Ag leaching system. Reference: Eleni Kastanaki et al., 2023."
+        },
+        {
+          id: 12,
+          question: "Y. K. Yi et al. (2014) employed an HNO₃/NaOH sequential leaching approach. What was the primary stated purpose of this process?",
+          options: [
+            "Maximum aluminum extraction efficiency",
+            "High-purity silicon recovery",
+            "Selective silver recovery from the leachate",
+            "Removal of the EVA encapsulant layer"
+          ],
+          correctAnswer: 1,
+          explanation: "The Yi et al. (2014) sequential process was used specifically for high-purity Si recovery, not primarily for Al extraction maximization. The Al leaching was a means to an end — Si purification. Reference: Y. K. Yi et al., 2014."
+        },
+        {
+          id: 13,
+          question: "Across all four studies, the evidence demonstrates aluminum extraction efficiencies consistently above what threshold?",
+          options: [
+            "95%",
+            "98%",
+            "99%",
+            "99.5%"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings explicitly state '>99% aluminum extraction efficiencies' as the consistent threshold across all four studies. 99.5% is too high to be the stated threshold, and 95–98% is below what the literature demonstrates. Reference: Consolidated findings, 2014–2024."
+        },
+        {
+          id: 14,
+          question: "Which lixiviant demonstrates a temperature-dependent limitation where both too-low AND too-high temperatures negatively affect aluminum leaching outcomes?",
+          options: [
+            "H₂SO₄ — requires exactly 12 M regardless of temperature",
+            "HCl — room temperature is optimal; 50°C worsens co-leaching",
+            "HNO₃ — 25–45°C gives 56.6–61.3% while 80°C still only gives 76%",
+            "NaOH — alkaline conditions are temperature-independent"
+          ],
+          correctAnswer: 2,
+          explanation: "HNO₃ shows limitations at both ends: low temperatures (25–45°C) give poor Al leaching, and even 80°C achieves only 76% at 5 N due to Al-Si alloy formation. HCl's temperature issue is about co-leaching quality, not Al extraction efficiency. Reference: Eleni Kastanaki et al., 2023."
+        },
+        {
+          id: 15,
+          question: "The span of studies reviewed for aluminum leaching covers which time period, and how many independent studies are cited?",
+          options: [
+            "2020–2024; five independent studies",
+            "2014–2024; four independent studies",
+            "2014–2025; four independent studies",
+            "2020–2024; four independent studies"
+          ],
+          correctAnswer: 1,
+          explanation: "The findings state 'four independent studies (2014–2024).' Yi et al. (2014) is the earliest, and Li et al. (2024) is the most recent. Option D omits 2014, and Option C extends the range to 2025 which is not stated. Reference: Consolidated findings."
+        },
+        {
+          id: 16,
+          question: "Which acid is described as dominating the aluminum leaching literature with the widest tested concentration range?",
+          options: [
+            "HCl — tested from 1% to 10%",
+            "H₂SO₄ — tested from 0.2 M to 12 M",
+            "HNO₃ — tested from 1 to 4 M across studies",
+            "NaOH — used as both a primary and secondary lixiviant"
+          ],
+          correctAnswer: 2,
+          explanation: "The findings explicitly state 'HNO₃ being the most frequently studied at varying concentrations (1–4 M).' H₂SO₄'s 12 M figure is a single data point for selectivity, not a range across studies. NaOH is alkaline and secondary. Reference: Consolidated findings."
+        },
+        {
+          id: 17,
+          question: "A student claims that HCl is the ideal lixiviant for aluminum removal because it achieves 99% extraction at room temperature. What finding best challenges this claim?",
+          options: [
+            "HCl requires 50°C to achieve 99% Al extraction",
+            "HCl co-leaches ~70 ppm Pb and ~20 ppm Ag, requiring additional purification",
+            "HCl was only tested in one study and lacks sufficient evidence",
+            "HCl requires sequential NaOH treatment to achieve 99% efficiency"
+          ],
+          correctAnswer: 1,
+          explanation: "The co-leaching of Pb (~70 ppm) and Ag (~20 ppm) is the primary limitation of HCl — it achieves the extraction goal but introduces impurities. Option A is false (room temperature is the reported condition). Option D applies to HNO₃ (Chen et al., 2020), not HCl. Reference: J. Mwase et al., 2024."
+        },
+        {
+          id: 18,
+          question: "Among all limitations identified, which finding most directly demonstrates that a single-acid approach is fundamentally insufficient for complete aluminum extraction?",
+          options: [
+            "H₂SO₄ requires 12 M for effective leaching, making it hazardous",
+            "HCl at 50°C worsens Pb co-leaching",
+            "HNO₃ at 5 N, 80°C still only achieved 76% Al leaching despite aggressive conditions",
+            "HNO₃ at 4 M required NaOH post-treatment to reach 99.9% efficiency"
+          ],
+          correctAnswer: 3,
+          explanation: "Chen et al. (2020) most directly proves single-acid insufficiency: 4 M HNO₃ alone could not achieve complete Al extraction and required 3 M NaOH afterward to reach 99.9%. Option C shows incomplete leaching but doesn't necessitate a second step as a proven solution. Reference: Wei-Sheng Chen et al., 2020."
+        },
+        {
+          id: 19,
+          question: "Which two lixiviant systems are described as having been studied across the widest range of conditions (temperature, concentration, and sequential steps) for aluminum leaching?",
+          options: [
+            "HCl and H₂O₂-H₂SO₄",
+            "H₂O₂-H₂SO₄ and NaOH",
+            "HNO₃ and NaOH (as part of sequential treatment)",
+            "HCl and NaOH"
+          ],
+          correctAnswer: 2,
+          explanation: "HNO₃ appears at 1–2 N hydrothermal (Kastanaki), 4 M in sequence with 3 M NaOH (Chen), and 5 N at 80°C (Kastanaki). NaOH appears as both a sequential partner and in the Yi et al. process. Together they cover the widest range of conditions tested. Reference: Eleni Kastanaki et al., 2023; Wei-Sheng Chen et al., 2020; Y. K. Yi et al., 2014."
+        },
+        {
+          id: 20,
+          question: "Based on all findings, which statement most accurately characterizes the current state of aluminum leaching from spent PVs?",
+          options: [
+            "All tested lixiviants achieve >99% Al extraction without co-leaching issues",
+            "Acidic lixiviants dominate and consistently achieve >99% Al extraction, but co-leaching, temperature dependence, and incomplete single-step recovery remain key limitations",
+            "Alkaline lixiviants outperform acidic ones in both efficiency and selectivity",
+            "The evidence base is too limited (fewer than 3 studies) to draw conclusions about limitations"
+          ],
+          correctAnswer: 1,
+          explanation: "This directly reflects the findings: acidic systems dominate and achieve high efficiencies, but the identified limitations (co-leaching of Pb/Ag in HCl, Al-Si alloy formation in HNO₃, high concentration needs for H₂SO₄, and sequential requirements) are real and consistent. Reference: Consolidated findings, 2014–2024."
+        }
+      ];
+
+      const GROUP_TOPICS = {
+        1: "Silver Leaching",
+        2: "Cu/Pb/Sn Recovery",
+        3: "Aluminium Leaching"
+      };
+
+      const ALL_QUESTIONS = {
+        1: group1Questions,
+        2: group2Questions,
+        3: group3Questions
+      };
 
       function QuizApp() {
         const [view, setView] = useState("start");
@@ -802,6 +890,8 @@
         const [showAdminLogin, setShowAdminLogin] = useState(false);
         const [finalResults, setFinalResults] = useState(null);
         const timerRef = useRef(null);
+
+        const questions = selectedGroup ? ALL_QUESTIONS[selectedGroup] : group1Questions;
 
         // Anti-cheat
         useEffect(() => {
@@ -859,9 +949,9 @@
           }
         };
 
+        // Allow changing answer while time is running
         const handleAnswer = (optIdx) => {
           if (revealed) return;
-          if (answers[currentQ] !== undefined) return;
           setAnswers(p => ({ ...p, [currentQ]: optIdx }));
         };
 
@@ -887,7 +977,7 @@
           const pct = ((finalScore / questions.length) * 100).toFixed(1);
           const result = {
             studentName, indexNumber,
-            group: `Group ${selectedGroup}`,
+            group: `Group ${selectedGroup} (${GROUP_TOPICS[selectedGroup]})`,
             rawScore: correct,
             tabSwitches, tabPenalty, finalScore,
             totalQuestions: questions.length,
@@ -910,24 +1000,24 @@
           else alert("Incorrect password");
         };
 
-        // ADMIN
         if (view === "admin") return <AdminView onExit={() => setView("start")} />;
 
-        // START
         if (view === "start") return (
           <div className="app-wrap">
             <div style={{ width: "100%", maxWidth: 520 }}>
               <div className="card">
                 <div style={{ marginBottom: "0.5rem" }}><span className="badge">KNUST · Materials Engineering</span></div>
                 <h1 style={{ marginBottom: "0.25rem" }}>Spent <span>PVs</span> Project</h1>
-                <p className="subtitle mono" style={{ fontSize: "0.78rem", color: "var(--accent)", letterSpacing: "0.06em", marginBottom: "1.5rem" }}>PHOTOVOLTAIC TECHNOLOGY QUIZ — 20 QUESTIONS</p>
+                <p className="subtitle mono" style={{ fontSize: "0.78rem", color: "var(--accent)", letterSpacing: "0.06em", marginBottom: "1.5rem" }}>PHOTOVOLTAIC RECYCLING QUIZ — 20 QUESTIONS</p>
 
                 <div className="rules-box">
                   <strong>Quiz Rules</strong><br />
-                  · 20 questions · 20 seconds per question<br />
+                  · 20 questions · <strong>30 seconds</strong> per question<br />
+                  · You may change your answer anytime before time runs out<br />
                   · Timer stops → answer revealed → click Next<br />
-                  · Points only awarded within the 20-second window<br />
-                  · Tab switching: <strong>–0.5 pts</strong> each · Right-click disabled
+                  · Points only awarded within the 30-second window<br />
+                  · Tab switching: <strong>–0.5 pts</strong> each · Right-click disabled<br />
+                  · Each group has its own unique question set
                 </div>
 
                 <label className="field-label">Select Your Group</label>
@@ -936,6 +1026,7 @@
                     <button key={g} className={`group-btn ${selectedGroup === g ? "selected" : ""}`} onClick={() => setSelectedGroup(g)}>
                       <span className="g-num">{g}</span>
                       <span className="g-label">Group {g}</span>
+                      <span className="g-topic">{GROUP_TOPICS[g]}</span>
                     </button>
                   ))}
                 </div>
@@ -964,37 +1055,22 @@
           </div>
         );
 
-        // RESULT
         if (view === "result" && finalResults) {
           const { rawScore, tabSwitches: ts, tabPenalty, finalScore, percentage } = finalResults;
           const grade = finalScore >= 16 ? "A" : finalScore >= 14 ? "B" : finalScore >= 10 ? "C" : "D";
           return (
             <div className="app-wrap">
               <div className="card" style={{ maxWidth: 520, textAlign: "center" }}>
-                <div style={{ marginBottom: "1rem" }}>
-                  <span className="badge badge-green">✓ SUBMITTED</span>
-                </div>
+                <div style={{ marginBottom: "1rem" }}><span className="badge badge-green">✓ SUBMITTED</span></div>
                 <h1>Quiz Complete!</h1>
                 <p className="subtitle">Well done, {studentName}</p>
                 <div className="score-big">{finalScore}<span style={{ fontSize: "1.5rem", color: "var(--text-muted)" }}>/{questions.length}</span></div>
                 <p style={{ color: "var(--accent2)", fontSize: "0.85rem", marginBottom: "1.25rem", fontFamily: "Space Mono" }}>{percentage}% · Grade {grade}</p>
                 <div className="score-detail">
-                  <div className="score-item">
-                    <div className="si-label">Raw Score</div>
-                    <div className="si-val">{rawScore}</div>
-                  </div>
-                  <div className="score-item">
-                    <div className="si-label">Tab Switches</div>
-                    <div className="si-val" style={{ color: ts > 0 ? "var(--danger)" : "var(--text)" }}>{ts}</div>
-                  </div>
-                  <div className="score-item">
-                    <div className="si-label">Penalty</div>
-                    <div className="si-val" style={{ color: "var(--danger)" }}>–{tabPenalty}</div>
-                  </div>
-                  <div className="score-item">
-                    <div className="si-label">Group</div>
-                    <div className="si-val" style={{ fontSize: "1.1rem" }}>Grp {selectedGroup}</div>
-                  </div>
+                  <div className="score-item"><div className="si-label">Raw Score</div><div className="si-val">{rawScore}</div></div>
+                  <div className="score-item"><div className="si-label">Tab Switches</div><div className="si-val" style={{ color: ts > 0 ? "var(--danger)" : "var(--text)" }}>{ts}</div></div>
+                  <div className="score-item"><div className="si-label">Penalty</div><div className="si-val" style={{ color: "var(--danger)" }}>–{tabPenalty}</div></div>
+                  <div className="score-item"><div className="si-label">Group</div><div className="si-val" style={{ fontSize: "1.1rem" }}>Grp {selectedGroup}</div></div>
                 </div>
                 <p style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>Your results have been recorded. Your instructor will share final grades.</p>
               </div>
@@ -1003,7 +1079,6 @@
           );
         }
 
-        // QUIZ
         const q = questions[currentQ];
         const userAnswer = answers[currentQ];
         const progress = ((currentQ) / questions.length) * 100;
@@ -1015,17 +1090,17 @@
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
                   <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{studentName}</span>
                   <span className="badge">{indexNumber}</span>
-                  <span className="badge badge-green">Group {selectedGroup}</span>
+                  <span className="badge badge-green">Group {selectedGroup} · {GROUP_TOPICS[selectedGroup]}</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                   {tabSwitches > 0 && (
                     <div className="tab-warning">⚠ {tabSwitches} switch{tabSwitches > 1 ? "es" : ""} (–{(tabSwitches * TAB_SWITCH_PENALTY).toFixed(1)})</div>
                   )}
                   <div className="timer-wrap">
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: timeLeft <= 5 ? "var(--danger)" : "var(--accent2)", flexShrink: 0 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: timeLeft <= 8 ? "var(--danger)" : "var(--accent2)", flexShrink: 0 }}>
                       <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                     </svg>
-                    <span className={`timer-num ${timeLeft <= 5 ? "warning pulse" : "ok"}`}>{timeLeft}s</span>
+                    <span className={`timer-num ${timeLeft <= 8 ? "warning pulse" : "ok"}`}>{timeLeft}s</span>
                   </div>
                 </div>
               </div>
@@ -1037,7 +1112,7 @@
               <div className="card" style={{ maxWidth: "100%", padding: "2rem" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
                   <span className="badge" style={{ background: "rgba(62,207,142,0.1)", color: "var(--accent2)", borderColor: "rgba(62,207,142,0.3)" }}>Q {currentQ + 1} of {questions.length}</span>
-                  {revealed && <span className="badge" style={{ background: "rgba(248,113,113,0.1)", color: "var(--danger)", borderColor: "rgba(248,113,113,0.3)" }}>TIME UP</span>}
+                  {revealed && <span className="badge badge-red">TIME UP</span>}
                 </div>
 
                 <p className="question-text">{q.question}</p>
@@ -1052,13 +1127,17 @@
                       if (userAnswer === i) cls += " selected";
                     }
                     return (
-                      <button key={i} className={cls} disabled={revealed || userAnswer !== undefined} onClick={() => handleAnswer(i)}>
+                      <button key={i} className={cls} disabled={revealed} onClick={() => handleAnswer(i)}>
                         <span className="option-letter">{LETTERS[i]}</span>
                         <span>{opt}</span>
                       </button>
                     );
                   })}
                 </div>
+
+                {!revealed && userAnswer !== undefined && (
+                  <p className="change-hint">💡 You can change your answer — timer is still running</p>
+                )}
 
                 {revealed && (
                   <div className="explanation-box">
@@ -1128,41 +1207,16 @@
                 ) : (
                   <>
                     <div className="stat-grid">
-                      <div className="stat-card">
-                        <div className="sc-label">Total Submissions</div>
-                        <div className="sc-val">{results.length}</div>
-                      </div>
-                      <div className="stat-card" style={{ borderColor: "rgba(34,197,94,0.3)" }}>
-                        <div className="sc-label" style={{ color: "var(--correct)" }}>Highest</div>
-                        <div className="sc-val" style={{ color: "var(--correct)" }}>{stats.highest}/20</div>
-                      </div>
-                      <div className="stat-card">
-                        <div className="sc-label" style={{ color: "var(--accent2)" }}>Average</div>
-                        <div className="sc-val" style={{ color: "var(--accent2)" }}>{stats.average}/20</div>
-                      </div>
-                      <div className="stat-card" style={{ borderColor: "rgba(239,68,68,0.3)" }}>
-                        <div className="sc-label" style={{ color: "var(--danger)" }}>Lowest</div>
-                        <div className="sc-val" style={{ color: "var(--danger)" }}>{stats.lowest}/20</div>
-                      </div>
+                      <div className="stat-card"><div className="sc-label">Total Submissions</div><div className="sc-val">{results.length}</div></div>
+                      <div className="stat-card" style={{ borderColor: "rgba(34,197,94,0.3)" }}><div className="sc-label" style={{ color: "var(--correct)" }}>Highest</div><div className="sc-val" style={{ color: "var(--correct)" }}>{stats.highest}/20</div></div>
+                      <div className="stat-card"><div className="sc-label" style={{ color: "var(--accent2)" }}>Average</div><div className="sc-val" style={{ color: "var(--accent2)" }}>{stats.average}/20</div></div>
+                      <div className="stat-card" style={{ borderColor: "rgba(239,68,68,0.3)" }}><div className="sc-label" style={{ color: "var(--danger)" }}>Lowest</div><div className="sc-val" style={{ color: "var(--danger)" }}>{stats.lowest}/20</div></div>
                     </div>
-
-                    <p className="text-muted text-sm mb1">Each tab switch = –0.5 point penalty</p>
-
+                    <p className="text-muted text-sm mb1">Each tab switch = –0.5 point penalty · 30 seconds per question</p>
                     <div className="overflow-x">
                       <table className="admin-table">
                         <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Index</th>
-                            <th>Group</th>
-                            <th>Raw</th>
-                            <th>Switches</th>
-                            <th>Penalty</th>
-                            <th>Final</th>
-                            <th>%</th>
-                            <th>Time</th>
-                          </tr>
+                          <tr><th>#</th><th>Name</th><th>Index</th><th>Group</th><th>Raw</th><th>Switches</th><th>Penalty</th><th>Final</th><th>%</th><th>Time</th></tr>
                         </thead>
                         <tbody>
                           {results.map((r, i) => (
